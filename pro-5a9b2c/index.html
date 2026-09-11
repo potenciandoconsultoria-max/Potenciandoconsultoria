@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnóstico Integral PyME | Edición Profesional</title>
+    <meta name="description" content="¿Sabés realmente cómo está tu empresa hoy? Respondé este cuestionario y obtené una radiografía clara de tu gestión.">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+       (function(){
+          emailjs.init("mD8knrxEa7uQiQNqM"); // Mantenido desde el original
+       })();
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <img src="../Logo.jpg" alt="Potenciando Consultoría Empresarial" class="logo-img">
+            </div>
+            <h2>DIAGNÓSTICO INTEGRAL PYME</h2>
+            <p class="subtitle">Miramos hacia adentro para que tu empresa crezca hacia afuera.</p>
+            <p class="description">Este cuestionario recorre 5 áreas de gestión a través de 19 preguntas. Marcá la opción que mejor representa a tu empresa hoy (no la situación ideal). Te tomará de 8 a 10 minutos.</p>
+        </header>
+
+        <form id="survey-form">
+            <!-- PROGRESS BAR -->
+            <div class="progress-container">
+                <div class="progress-bar"><div class="progress-fill"></div></div>
+                <div class="progress-text" id="progress-text">Paso 1 de 7</div>
+            </div>
+
+            <!-- STEP 1: DATOS DE LA EMPRESA -->
+            <div class="step step-active" id="step-1">
+                <h3 class="section-title">DATOS DE LA EMPRESA</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="empresa">Empresa:</label>
+                        <input type="text" id="empresa" name="empresa" required placeholder="Nombre de tu empresa">
+                    </div>
+                    <div class="form-group">
+                        <label for="sector">Sector / Rubro:</label>
+                        <input type="text" id="sector" name="sector" required placeholder="Ej. Comercio, Servicios, Industria">
+                    </div>
+                    <div class="form-group">
+                        <label for="nombre">Nombre y cargo:</label>
+                        <input type="text" id="nombre" name="nombre" required placeholder="Tu nombre y rol">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required placeholder="tu@correo.com">
+                    </div>
+                </div>
+                <div class="btn-group align-right">
+                    <button type="button" class="btn btn-primary" onclick="nextStep(1)">Siguiente ➔</button>
+                </div>
+            </div>
+
+            <!-- STEP 2: Área 1 -->
+            <div class="step" id="step-2">
+                <h3 class="section-title">Área 1 — Identidad y Estrategia</h3>
+                
+                <div class="question-block">
+                    <p class="question-title">A1. ¿Tenés definida la Misión, Visión y Valores de la empresa?</p>
+                    <div class="options">
+                        <label class="option-label"><input type="radio" name="A1" value="0" required> <span>No están definidos, cada uno entiende la empresa a su manera.</span></label>
+                        <label class="option-label"><input type="radio" name="A1" value="1"> <span>Están en la cabeza de la dirección, no escritos ni comunicados.</span></label>
+                        <label class="option-label"><input type="radio" name="A1" value="2"> <span>Están escritos, pero el equipo no los conoce bien.</span></label>
+                        <label class="option-label"><input type="radio" name="A1" value="3"> <span>Están definidos, escritos, y el equipo los conoce y los usa como referencia.</span></label>
+                    </div>
+                </div>
+
+                <div class="question-block">
+                    <p class="question-title">A2. ¿Existe algún objetivo estratégico para este año con meta concreta?</p>
+                    <div class="options">
+                        <label class="option-label"><input type="radio" name="A2" value="0" required> <span>No hay objetivos definidos para este año.</span></label>
+                        <label class="option-label"><input type="radio" name="A2" value="1"> <span>Hay una idea general de hacia dónde ir, pero sin metas concretas.</span></label>
+                        <label class="option-label"><input type="radio" name="A2" value="2"> <span>Hay objetivos con metas, pero sin seguimiento sistemático.</span></label>
+                        <label class="option-label"><input type="radio" name="A2" value="3"> <span>Hay objetivos con metas claras y se revisa el avance periódicamente.</span></label>
+                    </div>
+                </div>
+
+                <div class="question-block">
+                    <p class="question-title">A3. ¿Cómo se toman las decisiones importantes en la empresa?</p>
+                    <div class="options">
+                        <label class="option-label"><input type="radio" name="A3" value="0" required> <span>Por intuición y experiencia, sin datos formales.</span></label>
+                        <label class="option-label"><input type="radio" name="A3" value="1"> <span>Se miran números solo cuando aparece un problema.</span></label>
+                        <label class="option-label"><input type="radio" name="A3" value="2"> <span>Se usan algunos indicadores, pero sin un sistema estructurado.</span></label>
+                        <label class="option-label"><input type="radio" name="A3" value="3"> <span>Se decide con datos confiables y revisión periódica.</span></label>
+                    </div>
+                </div>
+
+                <div class="question-block">
+                    <p class="question-title">A4. ¿El equipo conoce hacia dónde va la empresa y cuál es su rol en eso?</p>
+                    <div class="options">
+                        <label class="option-label"><input type="radio" name="A4" value="0" required> <span>El equipo no tiene información sobre el rumbo de la empresa.</span></label>
+                        <label class="option-label"><input type="radio" name="A4" value="1"> <span>Solo la dirección conoce el rumbo; no se comunica al equipo.</span></label>
+                        <label class="option-label"><input type="radio" name="A4" value="2"> <span>El equipo tiene una idea general, pero no cómo aporta cada uno.</span></label>
+                        <label class="option-label"><input type="radio" name="A4" value="3"> <span>El equipo conoce el rumbo y entiende cómo su trabajo contribuye.</span></label>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary" onclick="prevStep(2)">⬅ Anterior</button>
+                    <button type="button" class="btn btn-primary" onclick="nextStep(2)">Siguiente ➔</button>
+                </div>
+            </div>
+
+            <!-- STEP 3: Área 2 -->
+            <div class="step" id="step-3">
+                <h3 class="section-title">Área 2 — Estructura y Equipo</h3>
+                
+                <div class="question-block">
+                    <p class="question-title">B1. ¿Están definidos los roles y responsabilidades de cada persona?</p>
+                    <div class="options">
+                        <label class="option-label"><input type="radio" name="B1" value="0" required> <span>No, cada uno hace lo que puede según el momento.</span></label>
+                        <label class="option-label"><input type="radio" name="B1" value="1"> <span>Hay una idea informal de quién hace qué, pero no está escrita.</span></label>
+                        <label class="option-label"><input type="radio" name="B1" value="2"> <span>Los roles están definidos para algunas posiciones, no todas.</span></label>
+                        <label class="option-label"><input type="radio" name="B1" value="3"> <span>Roles y responsabilidades están definidos y son conocidos por todos.</span></label>
+                    </div>
+                </div>
+
+                <div class="question-block">
+                    <p class="question-title">B2. ¿Existen procesos clave documentados o dependen de personas específicas?</p>
+                    <div class="options">
+                        <label class="option-label"><input type="radio" name="B2" value="0" required> <span>Nada está documentado, todo vive en la cabeza de las personas.</span></label>
+                        <label class="option-label"><input type="radio" name="B2" value="1"> <span>Algunos procesos están documentados de forma muy básica.</span></label>
+                        <label class="option-label"><input type="radio" name="B2" value="2"> <span>La mayoría están documentados, pero se usan poco en el día a día.</span></label>
+                        <label class="option-label"><input type="radio" name="B2" value="3"> <span>Los procesos clave están documentados, actualizados y se usan.</span></label>
+                    </div>
+                </div>
+
+                <div class="question-block">
+                    <p class="question-title">B3. ¿La empresa podría seguir funcionando si una persona clave se ausenta un mes?</p>
+                    <div class="options">
+                        <label class="option-label"><input type="radio" name="B3" value="0" required> <span>No, colapsaría sin esa persona.</span></label>
+                        <label class="option-label"><input type="radio" name="B3" value="1"> <span>Funcionaría con mucha dificultad.</span></label>
+                        <label class="option-label"><input type="radio" name="B3" value="2"> <span>Funcionaría con algunos problemas manejables.</span></label>
+                        <label class="option-label"><input type="radio" name="B3" value="3"> <span>Sí, el funcionamiento no depende de una sola persona.</span></label>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary" onclick="prevStep(3)">⬅ Anterior</button>
+                    <button type="button" class="btn btn-primary" onclick="nextStep(3)">Siguiente ➔</button>
+                </div>
+            </div>
+
+            <!-- STEP 4: Área 3 -->
+            <div class="step" id="step-4">
+                <h3 class="section-title">Área 3 — Ventas y Clientes</h3>
+                
+                <div class="question-block">
+                    <p class="question-title">C1. ¿Sabés cuánto vendés por mes y cuál es el monto promedio de cada venta?</p>
+                    <div class="options">
+                        <label class="option-label"><input type="radio" name="C1" value="0" required> <span>No se lleva un registro claro de las ventas mensuales.</span></label>
+                        <label class="option-label"><input type="radio" name="C1" value="1"> <span>Se conoce el total de ventas, pero no el detalle (monto promedio, mix de productos, etc.).</span></label>
+                        <label class="option-label"><input type="radio" name="C1" value="2"> <span>Se conocen las ventas y el monto promedio de venta, pero sin análisis regular.</span></label>
+                        <label class="option-label"><input type="radio" name="C1" value="3"> <span>Se conocen y se analizan las ventas y el monto promedio de venta cada mes.</span></label>
+                    </div>
+                </div>
+
+                <div class="question-block">
+                    <p class="question-title">C2. ¿Conocés cuáles son tus principales clientes o segmentos?</p>
+                    <div class="options">
+                        <label class="option-label"><input type="radio" name="C2" value="0" required> <span>No hay identificación clara de los clientes más importantes.</span></label>
+                        <label class="option-label"><input type="radio" name="C2" value="1"> <span>Hay una idea aproximada, sin datos que la respalden.</span></label>
+                        <label class="option-label"><input type="radio" name="C2" value="2"> <span>Están identificados, pero no se hace seguimiento particular.</span></label>
+                        <label class="option-label"><input type="radio" name="C2" value="3"> <span>Están identificados y reciben un seguimiento diferenciado.</span></label>
+                    </div>
+                </div>
+
+                <div class="question-block">
+                    <p class="question-title">C3. ¿Se mide la satisfacción de los clientes de alguna forma?</p>
+                    <div class="options">
+                        <label class="option-label"><input type="radio" name="C3" value="0" required> <span>No se mide de ninguna manera.</span></label>
+                        <label class="option-label"><input type="radio" name="C3" value="1"> <span>Se percibe informalmente, sin ningún registro.</span></label>
+                        <label class="option-label"><input type="radio" name="C3" value="2"> <span>Se mide ocasionalmente, sin sistematización.</span></label>
+                        <label class="option-label"><input type="radio" name="C3" value="3"> <span>Se mide de forma regular y se usa para tomar decisiones.</span></label>
+                    </div>
+                </div>
+
+                <div class="question-block">
+                    <p class="question-title">C4. ¿Existe un proceso claro para captar y hacer seguimiento de nuevos clientes?</p>
+                    <div class="options">
+                        <label class="option-label"><input type="radio" name="C4" value="0" required> <span>No existe un proceso, cada oportunidad se maneja de forma distinta.</span></label>
+                        <label class="option-label"><input type="radio" name="C4" value="1"> <span>Existe un proceso informal, que depende de quién lo lleve adelante.</span></label>
+                        <label class="option-label"><input type="radio" name="C4" value="2"> <span>Existe un proceso definido, pero se aplica de forma irregular.</span></label>
+                        <label class="option-label"><input type="radio" name="C4" value="3"> <span>Existe un proceso claro y se aplica de forma sistemática.</span></label>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary" onclick="prevStep(4)">⬅ Anterior</button>
+                    <button type="button" class="btn btn-primary" onclick="nextStep(4)">Siguiente ➔</button>
+                </div>
+            </div>
+
+            <!-- STEP 5: Área 4 -->
+            <div class="step" id="step-5">
+                <h3 class="section-title">Área 4 — Operaciones y Finanzas</h3>
+                
+                <div class="question-block">
+                    <p class="question-title">D1. ¿Conocés el margen de ganancia por producto o servicio principal?</p>
+                    <div class="options">
+                        <label class="option-label"><input type="radio" name="D1" value="0" required> <span>No se conoce el margen de los productos o servicios.</span></label>
+                        <label class="option-label"><input type="radio" name="D1" value="1"> <span>Se tiene una estimación general, sin cálculo preciso.</span></label>
+                        <label class="option-label"><input type="radio" name="D1" value="2"> <span>Se calcula el margen, pero no se revisa con frecuencia.</span></label>
+                        <label class="option-label"><input type="radio" name="D1" value="3"> <span>Se conoce con precisión y se revisa periódicamente.</span></label>
+                    </div>
+                </div>
+
+                <div class="question-block">
+                    <p class="question-title">D2. ¿Sabés con claridad cuánto gasta la empresa por mes y en qué rubros?</p>
+                    <div class="options">
+                        <label class="option-label"><input type="radio" name="D2" value="0" required> <span>No hay claridad sobre los gastos mensuales por rubro.</span></label>
+                        <label class="option-label"><input type="radio" name="D2" value="1"> <span>Se tiene una idea general del gasto total, sin desglose.</span></label>
+                        <label class="option-label"><input type="radio" name="D2" value="2"> <span>Se conocen los gastos por rubro, pero sin análisis periódico.</span></label>
+                        <label class="option-label"><input type="radio" name="D2" value="3"> <span>Se conocen y se analizan los gastos por rubro cada mes.</span></label>
+                    </div>
+                </div>
+
+                <div class="question-block">
+                    <p class="question-title">D3. ¿Con qué frecuencia aparecen problemas de stock, entrega o calidad?</p>
+                    <div class="options">
+                        <label class="option-label"><input type="radio" name="D3" value="0" required> <span>Son frecuentes y afectan la operación de forma recurrente.</span></label>
+                        <label class="option-label"><input type="radio" name="D3" value="1"> <span>Aparecen con cierta regularidad y generan reclamos.</span></label>
+                        <label class="option-label"><input type="radio" name="D3" value="2"> <span>Aparecen ocasionalmente y se resuelven sin mayor impacto.</span></label>
+                        <label class="option-label"><input type="radio" name="D3" value="3"> <span>Son poco frecuentes y hay mecanismos para prevenirlos.</span></label>
+                    </div>
+                </div>
+
+                <div class="question-block">
+                    <p class="question-title">D4. ¿El flujo de caja es predecible o genera sorpresas habitualmente?</p>
+                    <div class="options">
+                        <label class="option-label"><input type="radio" name="D4" value="0" required> <span>Genera sorpresas de manera habitual.</span></label>
+                        <label class="option-label"><input type="radio" name="D4" value="1"> <span>Genera sorpresas con cierta frecuencia.</span></label>
+                        <label class="option-label"><input type="radio" name="D4" value="2"> <span>Es bastante predecible, con algunas excepciones.</span></label>
+                        <label class="option-label"><input type="radio" name="D4" value="3"> <span>Es predecible y se proyecta con anticipación.</span></label>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary" onclick="prevStep(5)">⬅ Anterior</button>
+                    <button type="button" class="btn btn-primary" onclick="nextStep(5)">Siguiente ➔</button>
+                </div>
+            </div>
+
+            <!-- STEP 6: Área 5 -->
+            <div class="step" id="step-6">
+                <h3 class="section-title">Área 5 — Tecnología e Información</h3>
+                
+                <div class="question-block">
+                    <p class="question-title">E1. ¿Qué herramientas usás para gestionar la información del negocio?</p>
+                    <div class="options">
+                        <label class="option-label"><input type="radio" name="E1" value="0" required> <span>No hay herramientas específicas, la información está dispersa.</span></label>
+                        <label class="option-label"><input type="radio" name="E1" value="1"> <span>Se usan planillas básicas, sin un criterio uniforme.</span></label>
+                        <label class="option-label"><input type="radio" name="E1" value="2"> <span>Hay herramientas definidas, pero no se aprovechan del todo.</span></label>
+                        <label class="option-label"><input type="radio" name="E1" value="3"> <span>Hay herramientas adecuadas y se usan de forma sistemática.</span></label>
+                    </div>
+                </div>
+
+                <div class="question-block">
+                    <p class="question-title">E2. ¿Los informes que usás son manuales o están automatizados?</p>
+                    <div class="options">
+                        <label class="option-label"><input type="radio" name="E2" value="0" required> <span>Todo se arma manualmente cada vez que se necesita.</span></label>
+                        <label class="option-label"><input type="radio" name="E2" value="1"> <span>Se arma de forma manual, pero con cierta rutina.</span></label>
+                        <label class="option-label"><input type="radio" name="E2" value="2"> <span>Hay una combinación de reportes manuales y automatizados.</span></label>
+                        <label class="option-label"><input type="radio" name="E2" value="3"> <span>Los informes están mayormente automatizados.</span></label>
+                    </div>
+                </div>
+
+                <div class="question-block">
+                    <p class="question-title">E3. ¿La información del negocio está centralizada o dispersa?</p>
+                    <div class="options">
+                        <label class="option-label"><input type="radio" name="E3" value="0" required> <span>Está dispersa entre distintas personas y archivos.</span></label>
+                        <label class="option-label"><input type="radio" name="E3" value="1"> <span>Está parcialmente ordenada, pero no en un solo lugar.</span></label>
+                        <label class="option-label"><input type="radio" name="E3" value="2"> <span>Está bastante centralizada, con algunas excepciones.</span></label>
+                        <label class="option-label"><input type="radio" name="E3" value="3"> <span>Está centralizada y accesible para quien la necesita.</span></label>
+                    </div>
+                </div>
+
+                <div class="question-block">
+                    <p class="question-title">E4. ¿Disponés de algún indicador o dato concreto que se revisa con regularidad?</p>
+                    <div class="options">
+                        <label class="option-label"><input type="radio" name="E4" value="0" required> <span>No hay ningún indicador que se revise regularmente.</span></label>
+                        <label class="option-label"><input type="radio" name="E4" value="1"> <span>Hay algún dato suelto, sin revisión sistemática.</span></label>
+                        <label class="option-label"><input type="radio" name="E4" value="2"> <span>Hay indicadores definidos, pero se revisan de forma irregular.</span></label>
+                        <label class="option-label"><input type="radio" name="E4" value="3"> <span>Hay indicadores definidos y se revisan con regularidad.</span></label>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary" onclick="prevStep(6)">⬅ Anterior</button>
+                    <button type="button" class="btn btn-primary" id="submit-btn" onclick="submitForm()">Finalizar y Enviar ✓</button>
+                </div>
+            </div>
+            
+            <!-- STEP 7: SUCCESS MESSAGE -->
+            <div class="step result-step" id="step-7">
+                <div class="success-icon">✓</div>
+                <h3>¡Evaluación Completada!</h3>
+                
+                <p style="margin-bottom: 20px;"><strong>Te hemos enviado un correo electrónico a <span id="user-email-display">tu email</span> con tu diagnóstico detallado y los próximos pasos.</strong></p>
+                
+                <div class="diagnostic-box" id="diagnostic-box">
+                    <h4 style="text-align: center; font-size: 1.5rem; margin-bottom: 20px;">Tu Diagnóstico Integral</h4>
+                    
+                    <div class="report-section">
+                        <h5 style="color: var(--secondary-color); margin-bottom: 10px; font-size: 1.1rem;">Foto general</h5>
+                        <p><strong id="res-stage"></strong></p>
+                    </div>
+
+                    <div class="report-section" style="margin-top: 20px;">
+                        <h5 style="color: var(--secondary-color); margin-bottom: 10px; font-size: 1.1rem;">Situación por área</h5>
+                        <ul id="res-areas" style="list-style-type: none; padding: 0; line-height: 1.6;"></ul>
+                    </div>
+
+                    <div class="report-section" style="margin-top: 20px;">
+                        <h5 style="color: var(--secondary-color); margin-bottom: 10px; font-size: 1.1rem;">Principales fortalezas</h5>
+                        <p id="res-fortalezas" style="line-height: 1.6;"></p>
+                    </div>
+
+                    <div class="report-section" style="margin-top: 20px;">
+                        <h5 style="color: var(--secondary-color); margin-bottom: 10px; font-size: 1.1rem;">Alertas a tener en cuenta</h5>
+                        <p id="res-alertas" style="line-height: 1.6;"></p>
+                    </div>
+
+                    <div class="report-section" style="margin-top: 20px;">
+                        <h5 style="color: var(--secondary-color); margin-bottom: 10px; font-size: 1.1rem;">Lectura cruzada</h5>
+                        <p id="res-cruzada" style="line-height: 1.6;"></p>
+                    </div>
+
+                    <div class="report-section" style="margin-top: 20px;">
+                        <h5 style="color: var(--secondary-color); margin-bottom: 10px; font-size: 1.1rem;">Prioridades para empezar</h5>
+                        <div id="res-prioridades" style="line-height: 1.6;"></div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 30px; text-align: left; background: rgba(0,0,0,0.4); padding: 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
+                    <p style="font-weight:600; margin-bottom: 10px; color: var(--secondary-color);">Próximo paso:</p>
+                    <p style="font-size: 0.95rem; color: #ffffff;">Esta evaluación te da una primera fotografía de tu empresa a partir de tus propias respuestas. El paso siguiente es profundizar en los aspectos que aparecen como prioritarios, para entender con más detalle dónde están las principales oportunidades de mejora y qué impacto podrían tener en tu negocio.</p>
+                    <p style="font-size: 0.85rem; margin-top: 15px; color: #dddddd;">Contacto: WhatsApp 3416186024 · 3416001679<br>Email: potenciando.consultoria@gmail.com · potenciandoconsultoria.com</p>
+                </div>
+
+                <button type="button" class="btn btn-primary" style="margin-top:30px;" onclick="location.reload()">Realizar otra evaluación</button>
+            </div>
+            
+            <!-- LOADING OVERLAY -->
+            <div class="loading-overlay" id="loading-overlay">
+                <div class="spinner"></div>
+                <p style="font-weight: 500; font-size: 1.1rem; color: var(--secondary-color);">Analizando tus respuestas y preparando el informe...</p>
+            </div>
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
