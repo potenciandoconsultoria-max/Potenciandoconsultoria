@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autoevaluación Ágil PyME | Potenciando Consultoría</title>
+    <meta name="description" content="¿Sabés realmente cómo está tu empresa hoy? Respondé este cuestionario en menos de 5 minutos.">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+       (function(){
+          // Reemplaza "TU_PUBLIC_KEY" por la public key de tu cuenta en EmailJS
+          emailjs.init("mD8knrxEa7uQiQNqM");
+       })();
+    </script>
+</head>
+<body>
+    <div class="background-decorations">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <!-- Reemplaza "logo.png" por la ruta real de tu logo cuando lo subas -->
+            <div class="logo">
+                <img src="../Logo.jpg" alt="Potenciando Consultoría Empresarial" class="logo-img">
+            </div>
+            <h2>AUTOEVALUACIÓN ÁGIL PYME</h2>
+            <p class="subtitle">¿Sabés realmente cómo está tu empresa hoy?</p>
+            <p class="description">Respondé este cuestionario con honestidad. No hay respuestas buenas ni malas — solo la foto real de tu empresa. En menos de 5 minutos tenés una primera lectura de en qué etapa estás y qué servicio se ajusta mejor a tu situación.</p>
+        </header>
+
+        <form id="survey-form">
+            
+            <!-- PROGRESS BAR -->
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+                <div class="progress-text" id="progress-text">Sección 1 de 3</div>
+            </div>
+
+            <!-- STEP 1: DATOS DE LA EMPRESA -->
+            <div class="step step-active" id="step-1">
+                <h3 class="section-title">SECCIÓN 1 · DATOS DE LA EMPRESA</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="empresa">Empresa:</label>
+                        <input type="text" id="empresa" name="empresa" required placeholder="Nombre de tu empresa">
+                    </div>
+                    <div class="form-group">
+                        <label for="sector">Sector / Rubro:</label>
+                        <input type="text" id="sector" name="sector" required placeholder="Ej. Comercio, Servicios, Industria">
+                    </div>
+                    <div class="form-group">
+                        <label for="nombre">Nombre y cargo:</label>
+                        <input type="text" id="nombre" name="nombre" required placeholder="Tu nombre y rol">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required placeholder="tu@correo.com">
+                    </div>
+                </div>
+                <div class="btn-group align-right">
+                    <button type="button" class="btn btn-primary" onclick="nextStep(1)">Siguiente ➔</button>
+                </div>
+            </div>
+
+            <!-- STEP 2: DATOS CUANTITATIVOS -->
+            <div class="step" id="step-2">
+                <h3 class="section-title">SECCIÓN 2 · DATOS CUANTITATIVOS DE TU EMPRESA</h3>
+                
+                <div class="question-block">
+                    <p class="question-title">1. ¿Cuántos empleados tiene tu empresa (incluido vos)?</p>
+                    <div class="options">
+                        <label class="option-label"><input type="radio" name="q1" value="0" required> <span>Hasta 9 personas</span></label>
+                        <label class="option-label"><input type="radio" name="q1" value="1"> <span>Entre 10 y 30 personas</span></label>
+                        <label class="option-label"><input type="radio" name="q1" value="2"> <span>Entre 31 y 100 personas</span></label>
+                        <label class="option-label"><input type="radio" name="q1" value="3"> <span>Más de 100 personas</span></label>
+                    </div>
+                </div>
+
+                <div class="question-block">
+                    <p class="question-title">2. ¿En qué rango se ubica la facturación mensual promedio de tu empresa?</p>
+                    <p class="question-hint">(Estimado en pesos argentinos, sin IVA)</p>
+                    <div class="options">
+                        <label class="option-label"><input type="radio" name="q2" value="0" required> <span>Hasta $30.000.000 / mes</span></label>
+                        <label class="option-label"><input type="radio" name="q2" value="1"> <span>Entre $30.000.000 y $185.000.000 / mes</span></label>
+                        <label class="option-label"><input type="radio" name="q2" value="2"> <span>Entre $185.000.000 y $1.550.000.000 / mes</span></label>
+                        <label class="option-label"><input type="radio" name="q2" value="3"> <span>Más de $1.550.000.000 / mes</span></label>
+                        <label class="option-label"><input type="radio" name="q2" value="0_prefiero"> <span>Prefiero no indicarlo</span></label>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary" onclick="prevStep(2)">⬅ Anterior</button>
+                    <button type="button" class="btn btn-primary" onclick="nextStep(2)">Siguiente ➔</button>
+                </div>
+            </div>
+
+            <!-- STEP 3: AUTOEVALUACIÓN DE GESTIÓN -->
+            <div class="step" id="step-3">
+                <h3 class="section-title">SECCIÓN 3 · AUTOEVALUACIÓN DE GESTIÓN</h3>
+                
+                <div class="question-block">
+                    <p class="question-title">3. ¿Tenés objetivos claros y documentados para este año?</p>
+                    <div class="options">
+                        <label class="option-label"><input type="radio" name="q3" value="0" required> <span>No tenemos objetivos definidos</span></label>
+                        <label class="option-label"><input type="radio" name="q3" value="1"> <span>Están en la cabeza del dueño o gerente, no escritos</span></label>
+                        <label class="option-label"><input type="radio" name="q3" value="2"> <span>Parcialmente documentados, sin seguimiento sistemático</span></label>
+                        <label class="option-label"><input type="radio" name="q3" value="3"> <span>Sí, claros, documentados y comunicados a todo el equipo</span></label>
+                    </div>
+                </div>
+
+                <div class="question-block">
+                    <p class="question-title">4. ¿Cómo tomás decisiones en tu empresa?</p>
+                    <div class="options">
+                        <label class="option-label"><input type="radio" name="q4" value="0" required> <span>Por intuición y experiencia, sin datos formales</span></label>
+                        <label class="option-label"><input type="radio" name="q4" value="1"> <span>Cuando hay una crisis, miramos los números</span></label>
+                        <label class="option-label"><input type="radio" name="q4" value="2"> <span>Con algunos indicadores pero sin sistema estructurado</span></label>
+                        <label class="option-label"><input type="radio" name="q4" value="3"> <span>Con datos confiables y tablero de seguimiento mensual</span></label>
+                    </div>
+                </div>
+
+                <div class="question-block">
+                    <p class="question-title">5. ¿Tus procesos están documentados?</p>
+                    <div class="options">
+                        <label class="option-label"><input type="radio" name="q5" value="0" required> <span>Nada está documentado — todo vive en la cabeza de las personas</span></label>
+                        <label class="option-label"><input type="radio" name="q5" value="1"> <span>Algunos, de forma muy básica y desactualizada</span></label>
+                        <label class="option-label"><input type="radio" name="q5" value="2"> <span>La mayoría documentados pero sin uso cotidiano</span></label>
+                        <label class="option-label"><input type="radio" name="q5" value="3"> <span>Sí, actualizados y conocidos por el equipo</span></label>
+                    </div>
+                </div>
+
+                <div class="question-block">
+                    <p class="question-title">6. ¿Podría funcionar tu empresa si la persona clave se ausenta un mes?</p>
+                    <div class="options">
+                        <label class="option-label"><input type="radio" name="q6" value="0" required> <span>No, colapsaría sin esa persona</span></label>
+                        <label class="option-label"><input type="radio" name="q6" value="1"> <span>Con muchísima dificultad</span></label>
+                        <label class="option-label"><input type="radio" name="q6" value="2"> <span>Con algunos problemas manejables</span></label>
+                        <label class="option-label"><input type="radio" name="q6" value="3"> <span>Sí, los procesos son independientes de las personas</span></label>
+                    </div>
+                </div>
+
+                <div class="question-block">
+                    <p class="question-title">7. ¿Con qué frecuencia analizás información del negocio?</p>
+                    <div class="options">
+                        <label class="option-label"><input type="radio" name="q7" value="0" required> <span>Casi nunca o solo en momentos de crisis</span></label>
+                        <label class="option-label"><input type="radio" name="q7" value="1"> <span>Mensualmente, de forma reactiva</span></label>
+                        <label class="option-label"><input type="radio" name="q7" value="2"> <span>Con cierta regularidad pero sin metodología definida</span></label>
+                        <label class="option-label"><input type="radio" name="q7" value="3"> <span>Semanalmente, de forma proactiva con indicadores clave</span></label>
+                    </div>
+                </div>
+
+                <div class="question-block">
+                    <p class="question-title">8. ¿Tenés un tablero de métricas o indicadores de gestión?</p>
+                    <div class="options">
+                        <label class="option-label"><input type="radio" name="q8" value="0" required> <span>No tenemos nada</span></label>
+                        <label class="option-label"><input type="radio" name="q8" value="1"> <span>Usamos Excel de forma básica y poco sistemática</span></label>
+                        <label class="option-label"><input type="radio" name="q8" value="2"> <span>Tenemos reportes pero no se consultan regularmente</span></label>
+                        <label class="option-label"><input type="radio" name="q8" value="3"> <span>Sí, lo usamos para tomar decisiones de forma constante</span></label>
+                    </div>
+                </div>
+
+                <div class="question-block">
+                    <p class="question-title">9. ¿Cómo está la alineación entre las áreas o personas de tu empresa?</p>
+                    <div class="options">
+                        <label class="option-label"><input type="radio" name="q9" value="0" required> <span>Cada uno hace lo que puede, sin coordinación clara</span></label>
+                        <label class="option-label"><input type="radio" name="q9" value="1"> <span>Hay conflictos frecuentes de prioridades entre áreas</span></label>
+                        <label class="option-label"><input type="radio" name="q9" value="2"> <span>Coordinamos pero sin un sistema claro de objetivos</span></label>
+                        <label class="option-label"><input type="radio" name="q9" value="3"> <span>Trabajamos alineados hacia objetivos comunes y medibles</span></label>
+                    </div>
+                </div>
+
+                <div class="question-block">
+                    <p class="question-title">10. ¿Cuál describe mejor tu principal desafío de gestión hoy?</p>
+                    <div class="options">
+                        <label class="option-label"><input type="radio" name="q10" value="0" required> <span>El caos operativo del día a día me consume todo el tiempo</span></label>
+                        <label class="option-label"><input type="radio" name="q10" value="1"> <span>No sé en qué enfocar la energía del equipo</span></label>
+                        <label class="option-label"><input type="radio" name="q10" value="2"> <span>Me faltan datos confiables y un sistema para decidir mejor</span></label>
+                        <label class="option-label"><input type="radio" name="q10" value="3"> <span>Quiero escalar pero no tengo la base organizativa para hacerlo</span></label>
+                    </div>
+                </div>
+
+                <div class="question-block">
+                    <p class="question-title">11. ¿Qué esperarías principalmente de trabajar con una consultoría?</p>
+                    <div class="options">
+                        <label class="option-label"><input type="radio" name="q11" value="0" required> <span>Poner orden en los procesos y el caos operativo interno</span></label>
+                        <label class="option-label"><input type="radio" name="q11" value="1"> <span>Definir hacia dónde vamos estratégicamente y cómo lograrlo</span></label>
+                        <label class="option-label"><input type="radio" name="q11" value="2"> <span>Tener métricas, informes y reportes confiables cada mes</span></label>
+                        <label class="option-label"><input type="radio" name="q11" value="3"> <span>Todo lo anterior, integrado en un sistema que funcione con mi equipo</span></label>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary" onclick="prevStep(3)">⬅ Anterior</button>
+                    <button type="button" class="btn btn-primary" id="submit-btn" onclick="submitForm()">Finalizar y Ver Resultados ✓</button>
+                </div>
+            </div>
+            
+            <!-- STEP 4: SUCCESS MESSAGE -->
+            <div class="step result-step" id="step-4">
+                <div class="success-icon">✓</div>
+                <h3>¡Evaluación Completada!</h3>
+                
+                <div class="diagnostic-box" id="diagnostic-box">
+                    <h4>Tu Diagnóstico Preliminar</h4>
+                    <p><strong>Tamaño detectado:</strong> <span id="res-size"></span></p>
+                    <p><strong>Etapa actual:</strong> <span id="res-stage"></span></p>
+                </div>
+
+                <p><strong>Te hemos enviado un correo electrónico a <span id="user-email-display">tu email</span> con tu diagnóstico detallado y el servicio recomendado.</strong></p>
+                <p class="result-note">Revisá tu bandeja de entrada (y la carpeta de Spam por las dudas).</p>
+                <button type="button" class="btn btn-primary mt-4" onclick="location.reload()">Realizar otra evaluación</button>
+            </div>
+            
+            <!-- LOADING OVERLAY -->
+            <div class="loading-overlay" id="loading-overlay">
+                <div class="spinner"></div>
+                <p>Analizando tus respuestas y enviando resultados...</p>
+            </div>
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
