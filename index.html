@@ -1,3 +1,56 @@
-🚧 Sitio en mantenimiento
-Estamos realizando algunas mejoras.
-Volvemos pronto.
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Potenciando Consultoría | Selección de Diagnóstico</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <!-- CryptoJS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+</head>
+<body>
+    <div class="background-decorations">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <img src="Logo.jpg" alt="Potenciando Consultoría Empresarial" class="logo-img">
+            </div>
+            <h2>Bienvenido a Potenciando Consultoría</h2>
+            <p class="subtitle">Seleccioná el tipo de diagnóstico a realizar.</p>
+        </header>
+
+        <div class="menu-options">
+            <div class="card free-card" onclick="window.location.href='free/index.html'">
+                <h3>Diagnóstico Gratuito</h3>
+                <p>Una revisión rápida de los aspectos clave de tu PyME.</p>
+                <button class="btn btn-secondary">Comenzar</button>
+            </div>
+
+            <div class="card pro-card" onclick="openProModal()">
+                <h3>Diagnóstico Profesional</h3>
+                <p>Análisis exhaustivo con reporte detallado.</p>
+                <button class="btn btn-primary">Acceder</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Pro Password -->
+    <div id="password-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeProModal()">&times;</span>
+            <h3>Acceso Profesional</h3>
+            <p>Ingresá tu código de acceso para continuar.</p>
+            <input type="password" id="pro-password" placeholder="Código de acceso">
+            <p id="error-message" class="error-msg"></p>
+            <button class="btn btn-primary" onclick="verifyPassword()">Verificar</button>
+        </div>
+    </div>
+
+    <script src="security.js"></script>
+</body>
+</html>
