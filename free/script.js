@@ -1,7 +1,7 @@
 // Datos del cuestionario (solo para cálculo interno)
-const preguntas = [];
+const preguntas = [];               // No se usan en la versión free
 let currentStep = 1;
-const totalSteps = 4; // 3 preguntas + resultados
+const totalSteps = 4;                // 3 preguntas + resultados
 
 function updateProgress() {
   const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
@@ -33,7 +33,7 @@ function nextStep(step) {
   const next = document.getElementById(`step-${currentStep}`);
   if (next) next.classList.add('step-active');
   updateProgress();
-  window.scrollTo(0,0);
+  window.scrollTo(0, 0);
 }
 
 function prevStep(step) {
@@ -41,7 +41,7 @@ function prevStep(step) {
   currentStep = step - 1;
   document.getElementById(`step-${currentStep}`).classList.add('step-active');
   updateProgress();
-  window.scrollTo(0,0);
+  window.scrollTo(0, 0);
 }
 
 function getEtapaGeneral(puntos) {
@@ -63,9 +63,10 @@ async function submitForm() {
     }
   });
   if (!ok) { alert('Completa todas las preguntas requeridas antes de enviar.'); return; }
+
   document.getElementById('loading-overlay').classList.add('active');
 
-  // Calcular puntaje total simple (suma de valores)
+  // Calcular puntaje total simple (suma de los valores seleccionados)
   let total = 0;
   const formData = new FormData(document.getElementById('survey-form'));
   for (let [key, value] of formData.entries()) {
@@ -73,21 +74,40 @@ async function submitForm() {
     if (!isNaN(val)) total += val;
   }
 
-  // Simular envío email (se mantiene para compatibilidad, pero errores se ignoran)
-  try {
-    await emailjs.send('service_nch11cy', 'template_z20rrro', {});
-  } catch (e) { /* ignore */ }
+  // ----------  ENVIAR EMAIL CON EMAILJS ----------
+  const emailParams = {
+    empresa: formData.get('empresa') || '',
+    sector:  formData.get('sector')  || '',
+    nombre:  formData.get('nombre')  || '',
+    email:   formData.get('email')   || '',
+    // Campos que aparecen en el template. Si tu template tiene más variables,
+    // añádelas aquí con el mismo nombre.
+    res_stage: `${getEtapaGeneral(total)} (${total}/57 pts)`,
+    // Puedes enviar más datos (fortalezas, alertas, etc.) si los deseas:
+    // fortalezas: '…', alertas: '…', etc.
+  };
 
-  // Mostrar resultados
+  try {
+    await emailjs.send('service_nch11cy', 'template_meqgght', emailParams);
+    console.log('Email enviado (Free) via EmailJS');
+  } catch (e) {
+    console.warn('EmailJS error (Free):', e);
+  }
+  // ----------------------------------------------
+
+  // Mostrar resultados en pantalla
   document.getElementById('loading-overlay').classList.remove('active');
   document.getElementById('step-3').classList.remove('step-active');
   document.getElementById('step-4').classList.add('step-active');
+
   document.getElementById('res-stage').innerText = `${getEtapaGeneral(total)} (${total}/57 pts)`;
   document.getElementById('res-size').innerText = getEtapaGeneral(total);
   document.getElementById('user-email-display').innerText = formData.get('email');
+
   updateProgress();
 }
 
+// Exponer funciones al window para que los botones del HTML puedan llamarlas
 window.nextStep = nextStep;
 window.prevStep = prevStep;
 window.submitForm = submitForm;
