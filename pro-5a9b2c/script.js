@@ -101,17 +101,17 @@ function prevStep(step) {
 }
 
 function getNivelTexto(porcentaje) {
-    if (porcentaje <= 25) return 'Nivel 1 — Inicial';
-    if (porcentaje <= 50) return 'Nivel 2 — En desarrollo';
-    if (porcentaje <= 75) return 'Nivel 3 — Consolidado';
-    return 'Nivel 4 — Avanzado';
+    if (porcentaje <= 25) return 'Inicial';
+    if (porcentaje <= 50) return 'En desarrollo';
+    if (porcentaje <= 75) return 'Consolidado';
+    return 'Avanzado';
 }
 
 function getEtapaGeneral(puntos) {
-    if (puntos <= 14) return 'Etapa inicial (Nivel 1)';
-    if (puntos <= 28) return 'Etapa de ordenamiento (Nivel 2)';
-    if (puntos <= 42) return 'Etapa de consolidación (Nivel 3)';
-    return 'Etapa de integración avanzada (Nivel 4)';
+    if (puntos <= 14) return 'Etapa inicial';
+    if (puntos <= 28) return 'Etapa de ordenamiento';
+    if (puntos <= 42) return 'Etapa de consolidación';
+    return 'Etapa de integración avanzada';
 }
 
 async function submitForm() {
@@ -214,7 +214,7 @@ async function submitForm() {
     // Lectura Cruzada
     let mayorDistancia = 0;
     let parSeleccionado = null;
-    let lecturaCruzadaStr = "Las áreas de gestión están, en general, parejas entre sí.";
+    let lecturaCruzadaStr = "Los ejes de gestión están, en general, parejos entre sí.";
     let areasInvolucradasCruzada = [];
 
     lecturaCruzadaData.forEach(item => {
@@ -256,10 +256,10 @@ Nombre: ${formData.get('nombre')}
 Email: ${formData.get('email')}`;
 
     let devolucionCompleta = `
--- FOTO GENERAL --
-${etapaGeneral} (Puntaje: ${totalPuntos}/57)
+-- ESTADO GENERAL --
+${etapaGeneral}
 
--- SITUACIÓN POR ÁREA --
+-- SITUACIÓN POR EJE --
 ${situacionPorAreaStr}
 
 -- PRINCIPALES FORTALEZAS --
@@ -268,7 +268,7 @@ ${fortalezasStr}
 -- ALERTAS A TENER EN CUENTA --
 ${alertasStr}
 
--- LECTURA CRUZADA --
+-- PRIMER MIRADA --
 ${lecturaCruzadaStr}
 
 -- PRIORIDADES PARA EMPEZAR --
@@ -286,7 +286,7 @@ ${prioridadesFinal}
         sector: formData.get('sector'),
         
         size_category: etapaGeneral,
-        stage_intro: `FOTO GENERAL:\n${etapaGeneral} (${totalPuntos}/57 pts)\n\nSITUACIÓN POR ÁREA:\n${situacionPorAreaStr}\n\nPRINCIPALES FORTALEZAS:\n${fortalezasStr}\n\nALERTAS A TENER EN CUENTA:\n${alertasStr}\n\nLECTURA CRUZADA:\n${lecturaCruzadaStr}`,
+        stage_intro: `ESTADO GENERAL:\n${etapaGeneral}\n\nSITUACIÓN POR EJE:\n${situacionPorAreaStr}\n\nPRINCIPALES FORTALEZAS:\n${fortalezasStr}\n\nALERTAS A TENER EN CUENTA:\n${alertasStr}\n\nPRIMER MIRADA:\n${lecturaCruzadaStr}`,
         size_specific_text: `PRIORIDADES PARA EMPEZAR:\n${prioridadesFinal}`,
         recommended_service: `PRÓXIMO PASO:\nEsta evaluación te da una primera fotografía de tu empresa a partir de tus propias respuestas. El paso siguiente es profundizar en los aspectos que aparecen como prioritarios, para entender con más detalle dónde están las principales oportunidades de mejora y qué impacto podrían tener en tu negocio.\n\nContacto: WhatsApp 3416186024 · 3416001679 | Email: potenciando.consultoria@gmail.com`,
         
@@ -335,7 +335,7 @@ ${prioridadesFinal}
     }
 
     // Actualizar UI resultado completo
-    document.getElementById('res-stage').innerText = `${etapaGeneral} (${totalPuntos}/57 pts)`;
+    document.getElementById('res-stage').innerText = `${etapaGeneral}`;
 
     const resAreasEl = document.getElementById('res-areas');
     if (resAreasEl) {
