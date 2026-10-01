@@ -23,14 +23,14 @@
             </div>
             <h2>DIAGNÓSTICO INTEGRAL PYME</h2>
             <p class="subtitle">Miramos hacia adentro para que tu empresa crezca hacia afuera.</p>
-            <p class="description">Este cuestionario recorre 5 áreas de gestión a través de 19 preguntas. Marcá la opción que mejor representa a tu empresa hoy (no la situación ideal). Te tomará de 8 a 10 minutos.</p>
+            <p class="description">Este cuestionario recorre 5 ejes de gestión a través de 19 preguntas. Marcá la opción que mejor representa a tu empresa hoy (no la situación ideal). Te tomará de 8 a 10 minutos.</p>
         </header>
 
         <form id="survey-form">
             <!-- PROGRESS BAR -->
             <div class="progress-container">
                 <div class="progress-bar"><div class="progress-fill"></div></div>
-                <div class="progress-text" id="progress-text">Paso 1 de 7</div>
+                <div class="progress-text" id="progress-text"></div>
             </div>
 
             <!-- STEP 1: DATOS DE LA EMPRESA -->
@@ -61,10 +61,10 @@
 
             <!-- STEP 2: Área 1 -->
             <div class="step" id="step-2">
-                <h3 class="section-title">Área 1 — Identidad y Estrategia</h3>
+                <h3 class="section-title">Eje 1 — Identidad y Estrategia</h3>
                 
                 <div class="question-block">
-                    <p class="question-title">A1. ¿Tenés definida la Misión, Visión y Valores de la empresa?</p>
+                    <p class="question-title">1.1. ¿Tenés definida la Misión, Visión y Valores de la empresa?</p>
                     <div class="options">
                         <label class="option-label"><input type="radio" name="A1" value="0" required> <span>No están definidos, cada uno entiende la empresa a su manera.</span></label>
                         <label class="option-label"><input type="radio" name="A1" value="1"> <span>Están en la cabeza de la dirección, no escritos ni comunicados.</span></label>
@@ -74,7 +74,7 @@
                 </div>
 
                 <div class="question-block">
-                    <p class="question-title">A2. ¿Existe algún objetivo estratégico para este año con meta concreta?</p>
+                    <p class="question-title">1.2. ¿Existe algún objetivo estratégico para este año con meta concreta?</p>
                     <div class="options">
                         <label class="option-label"><input type="radio" name="A2" value="0" required> <span>No hay objetivos definidos para este año.</span></label>
                         <label class="option-label"><input type="radio" name="A2" value="1"> <span>Hay una idea general de hacia dónde ir, pero sin metas concretas.</span></label>
@@ -84,7 +84,7 @@
                 </div>
 
                 <div class="question-block">
-                    <p class="question-title">A3. ¿Cómo se toman las decisiones importantes en la empresa?</p>
+                    <p class="question-title">1.3. ¿Cómo se toman las decisiones importantes en la empresa?</p>
                     <div class="options">
                         <label class="option-label"><input type="radio" name="A3" value="0" required> <span>Por intuición y experiencia, sin datos formales.</span></label>
                         <label class="option-label"><input type="radio" name="A3" value="1"> <span>Se miran números solo cuando aparece un problema.</span></label>
@@ -94,7 +94,7 @@
                 </div>
 
                 <div class="question-block">
-                    <p class="question-title">A4. ¿El equipo conoce hacia dónde va la empresa y cuál es su rol en eso?</p>
+                    <p class="question-title">1.4. ¿El equipo conoce hacia dónde va la empresa y cuál es su rol en eso?</p>
                     <div class="options">
                         <label class="option-label"><input type="radio" name="A4" value="0" required> <span>El equipo no tiene información sobre el rumbo de la empresa.</span></label>
                         <label class="option-label"><input type="radio" name="A4" value="1"> <span>Solo la dirección conoce el rumbo; no se comunica al equipo.</span></label>
@@ -111,10 +111,10 @@
 
             <!-- STEP 3: Área 2 -->
             <div class="step" id="step-3">
-                <h3 class="section-title">Área 2 — Estructura y Equipo</h3>
+                <h3 class="section-title">Eje 2 — Estructura y Equipo</h3>
                 
                 <div class="question-block">
-                    <p class="question-title">B1. ¿Están definidos los roles y responsabilidades de cada persona?</p>
+                    <p class="question-title">2.1. ¿Están definidos los roles y responsabilidades de cada persona?</p>
                     <div class="options">
                         <label class="option-label"><input type="radio" name="B1" value="0" required> <span>No, cada uno hace lo que puede según el momento.</span></label>
                         <label class="option-label"><input type="radio" name="B1" value="1"> <span>Hay una idea informal de quién hace qué, pero no está escrita.</span></label>
@@ -124,7 +124,7 @@
                 </div>
 
                 <div class="question-block">
-                    <p class="question-title">B2. ¿Existen procesos clave documentados o dependen de personas específicas?</p>
+                    <p class="question-title">2.2. ¿Existen procesos clave documentados o dependen de personas específicas?</p>
                     <div class="options">
                         <label class="option-label"><input type="radio" name="B2" value="0" required> <span>Nada está documentado, todo vive en la cabeza de las personas.</span></label>
                         <label class="option-label"><input type="radio" name="B2" value="1"> <span>Algunos procesos están documentados de forma muy básica.</span></label>
@@ -134,7 +134,7 @@
                 </div>
 
                 <div class="question-block">
-                    <p class="question-title">B3. ¿La empresa podría seguir funcionando si una persona clave se ausenta un mes?</p>
+                    <p class="question-title">2.3. ¿La empresa podría seguir funcionando si una persona clave se ausenta un mes?</p>
                     <div class="options">
                         <label class="option-label"><input type="radio" name="B3" value="0" required> <span>No, colapsaría sin esa persona.</span></label>
                         <label class="option-label"><input type="radio" name="B3" value="1"> <span>Funcionaría con mucha dificultad.</span></label>
@@ -151,10 +151,10 @@
 
             <!-- STEP 4: Área 3 -->
             <div class="step" id="step-4">
-                <h3 class="section-title">Área 3 — Ventas y Clientes</h3>
+                <h3 class="section-title">Eje 3 — Ventas y Clientes</h3>
                 
                 <div class="question-block">
-                    <p class="question-title">C1. ¿Sabés cuánto vendés por mes y cuál es el monto promedio de cada venta?</p>
+                    <p class="question-title">3.1. ¿Sabés cuánto vendés por mes y cuál es el monto promedio de cada venta?</p>
                     <div class="options">
                         <label class="option-label"><input type="radio" name="C1" value="0" required> <span>No se lleva un registro claro de las ventas mensuales.</span></label>
                         <label class="option-label"><input type="radio" name="C1" value="1"> <span>Se conoce el total de ventas, pero no el detalle (monto promedio, mix de productos, etc.).</span></label>
@@ -164,7 +164,7 @@
                 </div>
 
                 <div class="question-block">
-                    <p class="question-title">C2. ¿Conocés cuáles son tus principales clientes o segmentos?</p>
+                    <p class="question-title">3.2. ¿Conocés cuáles son tus principales clientes o segmentos?</p>
                     <div class="options">
                         <label class="option-label"><input type="radio" name="C2" value="0" required> <span>No hay identificación clara de los clientes más importantes.</span></label>
                         <label class="option-label"><input type="radio" name="C2" value="1"> <span>Hay una idea aproximada, sin datos que la respalden.</span></label>
@@ -174,7 +174,7 @@
                 </div>
 
                 <div class="question-block">
-                    <p class="question-title">C3. ¿Se mide la satisfacción de los clientes de alguna forma?</p>
+                    <p class="question-title">3.3. ¿Se mide la satisfacción de los clientes de alguna forma?</p>
                     <div class="options">
                         <label class="option-label"><input type="radio" name="C3" value="0" required> <span>No se mide de ninguna manera.</span></label>
                         <label class="option-label"><input type="radio" name="C3" value="1"> <span>Se percibe informalmente, sin ningún registro.</span></label>
@@ -184,7 +184,7 @@
                 </div>
 
                 <div class="question-block">
-                    <p class="question-title">C4. ¿Existe un proceso claro para captar y hacer seguimiento de nuevos clientes?</p>
+                    <p class="question-title">3.4. ¿Existe un proceso claro para captar y hacer seguimiento de nuevos clientes?</p>
                     <div class="options">
                         <label class="option-label"><input type="radio" name="C4" value="0" required> <span>No existe un proceso, cada oportunidad se maneja de forma distinta.</span></label>
                         <label class="option-label"><input type="radio" name="C4" value="1"> <span>Existe un proceso informal, que depende de quién lo lleve adelante.</span></label>
@@ -201,10 +201,10 @@
 
             <!-- STEP 5: Área 4 -->
             <div class="step" id="step-5">
-                <h3 class="section-title">Área 4 — Operaciones y Finanzas</h3>
+                <h3 class="section-title">Eje 4 — Operaciones y Finanzas</h3>
                 
                 <div class="question-block">
-                    <p class="question-title">D1. ¿Conocés el margen de ganancia por producto o servicio principal?</p>
+                    <p class="question-title">4.1. ¿Conocés el margen de ganancia por producto o servicio principal?</p>
                     <div class="options">
                         <label class="option-label"><input type="radio" name="D1" value="0" required> <span>No se conoce el margen de los productos o servicios.</span></label>
                         <label class="option-label"><input type="radio" name="D1" value="1"> <span>Se tiene una estimación general, sin cálculo preciso.</span></label>
@@ -214,7 +214,7 @@
                 </div>
 
                 <div class="question-block">
-                    <p class="question-title">D2. ¿Sabés con claridad cuánto gasta la empresa por mes y en qué rubros?</p>
+                    <p class="question-title">4.2. ¿Sabés con claridad cuánto gasta la empresa por mes y en qué rubros?</p>
                     <div class="options">
                         <label class="option-label"><input type="radio" name="D2" value="0" required> <span>No hay claridad sobre los gastos mensuales por rubro.</span></label>
                         <label class="option-label"><input type="radio" name="D2" value="1"> <span>Se tiene una idea general del gasto total, sin desglose.</span></label>
@@ -224,7 +224,7 @@
                 </div>
 
                 <div class="question-block">
-                    <p class="question-title">D3. ¿Con qué frecuencia aparecen problemas de stock, entrega o calidad?</p>
+                    <p class="question-title">4.3. ¿Con qué frecuencia aparecen problemas de stock, entrega o calidad?</p>
                     <div class="options">
                         <label class="option-label"><input type="radio" name="D3" value="0" required> <span>Son frecuentes y afectan la operación de forma recurrente.</span></label>
                         <label class="option-label"><input type="radio" name="D3" value="1"> <span>Aparecen con cierta regularidad y generan reclamos.</span></label>
@@ -234,7 +234,7 @@
                 </div>
 
                 <div class="question-block">
-                    <p class="question-title">D4. ¿El flujo de caja es predecible o genera sorpresas habitualmente?</p>
+                    <p class="question-title">4.4. ¿El flujo de caja es predecible o genera sorpresas habitualmente?</p>
                     <div class="options">
                         <label class="option-label"><input type="radio" name="D4" value="0" required> <span>Genera sorpresas de manera habitual.</span></label>
                         <label class="option-label"><input type="radio" name="D4" value="1"> <span>Genera sorpresas con cierta frecuencia.</span></label>
@@ -251,10 +251,10 @@
 
             <!-- STEP 6: Área 5 -->
             <div class="step" id="step-6">
-                <h3 class="section-title">Área 5 — Tecnología e Información</h3>
+                <h3 class="section-title">Eje 5 — Tecnología e Información</h3>
                 
                 <div class="question-block">
-                    <p class="question-title">E1. ¿Qué herramientas usás para gestionar la información del negocio?</p>
+                    <p class="question-title">5.1. ¿Qué herramientas usás para gestionar la información del negocio?</p>
                     <div class="options">
                         <label class="option-label"><input type="radio" name="E1" value="0" required> <span>No hay herramientas específicas, la información está dispersa.</span></label>
                         <label class="option-label"><input type="radio" name="E1" value="1"> <span>Se usan planillas básicas, sin un criterio uniforme.</span></label>
@@ -264,7 +264,7 @@
                 </div>
 
                 <div class="question-block">
-                    <p class="question-title">E2. ¿Los informes que usás son manuales o están automatizados?</p>
+                    <p class="question-title">5.2. ¿Los informes que usás son manuales o están automatizados?</p>
                     <div class="options">
                         <label class="option-label"><input type="radio" name="E2" value="0" required> <span>Todo se arma manualmente cada vez que se necesita.</span></label>
                         <label class="option-label"><input type="radio" name="E2" value="1"> <span>Se arma de forma manual, pero con cierta rutina.</span></label>
@@ -274,7 +274,7 @@
                 </div>
 
                 <div class="question-block">
-                    <p class="question-title">E3. ¿La información del negocio está centralizada o dispersa?</p>
+                    <p class="question-title">5.3. ¿La información del negocio está centralizada o dispersa?</p>
                     <div class="options">
                         <label class="option-label"><input type="radio" name="E3" value="0" required> <span>Está dispersa entre distintas personas y archivos.</span></label>
                         <label class="option-label"><input type="radio" name="E3" value="1"> <span>Está parcialmente ordenada, pero no en un solo lugar.</span></label>
@@ -284,7 +284,7 @@
                 </div>
 
                 <div class="question-block">
-                    <p class="question-title">E4. ¿Disponés de algún indicador o dato concreto que se revisa con regularidad?</p>
+                    <p class="question-title">5.4. ¿Disponés de algún indicador o dato concreto que se revisa con regularidad?</p>
                     <div class="options">
                         <label class="option-label"><input type="radio" name="E4" value="0" required> <span>No hay ningún indicador que se revise regularmente.</span></label>
                         <label class="option-label"><input type="radio" name="E4" value="1"> <span>Hay algún dato suelto, sin revisión sistemática.</span></label>
@@ -310,12 +310,12 @@
                     <h4 style="text-align: center; font-size: 1.5rem; margin-bottom: 20px;">Tu Diagnóstico Integral</h4>
                     
                     <div class="report-section">
-                        <h5 style="color: var(--secondary-color); margin-bottom: 10px; font-size: 1.1rem;">Foto general</h5>
+                        <h5 style="color: var(--secondary-color); margin-bottom: 10px; font-size: 1.1rem;">Estado general</h5>
                         <p><strong id="res-stage"></strong></p>
                     </div>
 
                     <div class="report-section" style="margin-top: 20px;">
-                        <h5 style="color: var(--secondary-color); margin-bottom: 10px; font-size: 1.1rem;">Situación por área</h5>
+                        <h5 style="color: var(--secondary-color); margin-bottom: 10px; font-size: 1.1rem;">Situación por eje</h5>
                         <ul id="res-areas" style="list-style-type: none; padding: 0; line-height: 1.6;"></ul>
                     </div>
 
@@ -330,7 +330,7 @@
                     </div>
 
                     <div class="report-section" style="margin-top: 20px;">
-                        <h5 style="color: var(--secondary-color); margin-bottom: 10px; font-size: 1.1rem;">Lectura cruzada</h5>
+                        <h5 style="color: var(--secondary-color); margin-bottom: 10px; font-size: 1.1rem;">Primer mirada</h5>
                         <p id="res-cruzada" style="line-height: 1.6;"></p>
                     </div>
 
@@ -342,7 +342,7 @@
 
                 <div style="margin-top: 30px; text-align: left; background: rgba(0,0,0,0.4); padding: 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
                     <p style="font-weight:600; margin-bottom: 10px; color: var(--secondary-color);">Próximo paso:</p>
-                    <p style="font-size: 0.95rem; color: #ffffff;">Esta evaluación te da una primera fotografía de tu empresa a partir de tus propias respuestas. El paso siguiente es profundizar en los aspectos que aparecen como prioritarios, para entender con más detalle dónde están las principales oportunidades de mejora y qué impacto podrían tener en tu negocio.</p>
+                    <p style="font-size: 0.95rem; color: #ffffff;">Esta evaluación te da la "Primer mirada" de tu empresa a partir de tus propias respuestas. El paso siguiente es profundizar en los aspectos que aparecen como prioritarios, para entender con más detalle dónde están las principales oportunidades de mejora y qué impacto podrían tener en tu negocio.</p>
                     <p style="font-size: 0.85rem; margin-top: 15px; color: #dddddd;">Contacto: WhatsApp 3416186024 · 3416001679<br>Email: potenciando.consultoria@gmail.com · potenciandoconsultoria.com</p>
                 </div>
 
