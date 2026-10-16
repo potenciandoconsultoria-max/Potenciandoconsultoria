@@ -76,14 +76,18 @@ async function submitForm() {
   // ---------- ENVIAR EMAIL CON EMAILJS ----------
   const etapa = getEtapaGeneral(total);
   const emailParams = {
-    // Variables del template template_meqgght (exactas del dashboard)
+    // Variables del template template_meqgght (con alias para compatibilidad total)
     to_email: formData.get('email') || '',
-    name: formData.get('nombre') || '',
-    title: 'Diagnóstico Empresarial Gratuito',
+    email_cliente: formData.get('email') || '',
     email: formData.get('email') || '',
-    empresa: formData.get('empresa') || '',
-    sector: formData.get('sector') || '',
+    name: formData.get('nombre') || '',
     nombre: formData.get('nombre') || '',
+    to_name: formData.get('nombre') || '',
+    from_name: 'Potenciando Consultoría Empresarial',
+    empresa: formData.get('empresa') || '',
+    empresa_name: formData.get('empresa') || '',
+    sector: formData.get('sector') || '',
+    title: 'Diagnóstico Empresarial Gratuito',
     res_stage: `${etapa} (${total}/57 pts)`,
     res_fortalezas: 'Versión gratuita — Para un análisis detallado de fortalezas, accedé al Diagnóstico Profesional.',
     res_alertas: 'Versión gratuita — Para un análisis detallado de alertas, accedé al Diagnóstico Profesional.',
@@ -91,10 +95,15 @@ async function submitForm() {
     res_prioridades: 'Versión gratuita — Las prioridades detalladas están disponibles en el Diagnóstico Profesional.'
   };
 
+  let emailSentSuccess = true;
+  let emailErrorMsg = '';
+
   try {
-    await emailjs.send('service_nch11cy', 'template_meqgght', emailParams);
+    await emailjs.send('service_nch11cy', 'template_meqgght', emailParams, 'mD8knrxEa7uQiQNqM');
     console.log('Email enviado (Free) via EmailJS');
   } catch (e) {
+    emailSentSuccess = false;
+    emailErrorMsg = e?.text || e?.message || JSON.stringify(e);
     console.warn('EmailJS error (Free):', e);
   }
 
@@ -105,6 +114,15 @@ async function submitForm() {
   document.getElementById('res-stage').innerText = `${getEtapaGeneral(total)} (${total}/57 pts)`;
   document.getElementById('res-size').innerText = getEtapaGeneral(total);
   document.getElementById('user-email-display').innerText = formData.get('email');
+
+  if (!emailSentSuccess) {
+    const subNotice = document.createElement('div');
+    subNotice.style.cssText = 'background: rgba(255, 165, 0, 0.15); border: 1px solid #ffa500; color: #ffcc80; padding: 10px 14px; border-radius: 8px; font-size: 0.85rem; margin-top: 15px; margin-bottom: 15px;';
+    subNotice.innerHTML = `⚠️ <strong>Nota:</strong> Tu evaluación se procesó con éxito en pantalla, pero hubo un problema al despachar el correo automático (<em>${emailErrorMsg || 'Verificá tu conexión o la casilla ingresada'}</em>). Te recomendamos guardar una captura de este resultado.`;
+    const step4El = document.getElementById('step-4');
+    step4El.insertBefore(subNotice, document.getElementById('diagnostic-box'));
+  }
+
   updateProgress();
 }
 
