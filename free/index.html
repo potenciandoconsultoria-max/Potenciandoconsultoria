@@ -1,36 +1,138 @@
 
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sitio en mantenimiento</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050510">
+<title>Sitio en mantenimiento</title>
 
-    body {
-      min-height: 100vh;
-      background: #050510;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-    }
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-    img {
-      display: block;
-      width: 100%;
-      height: 100vh;
-      object-fit: contain;
-    }
-  </style>
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  font-family: Arial, Helvetica, sans-serif;
+  color: white;
+  background:
+    radial-gradient(ellipse at 0% 50%, #002b68 0%, transparent 45%),
+    radial-gradient(ellipse at 100% 50%, #4a075e 0%, transparent 45%),
+    repeating-linear-gradient(
+      135deg,
+      #11111d 0px,
+      #11111d 2px,
+      #090912 2px,
+      #090912 5px
+    );
+}
+
+.panel {
+  width: min(900px, 94%);
+  padding: 55px 25px;
+  text-align: center;
+  border: 1px solid #24244b;
+  border-radius: 18px;
+  background: rgba(3, 3, 15, 0.82);
+  box-shadow:
+    0 0 35px #0066ff33,
+    0 0 55px #d000ff22,
+    inset 0 0 35px #17173366;
+}
+
+.gear {
+  font-size: 76px;
+  color: #00d9ff;
+  text-shadow: 0 0 12px #00cfff, 0 0 35px #0066ff;
+  animation: turn 12s linear infinite;
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: clamp(30px, 6vw, 65px);
+  font-weight: 900;
+  line-height: 1.12;
+  text-transform: uppercase;
+  color: #00d9ff;
+  text-shadow: 0 0 8px #00aaff, 0 0 25px #0055ff;
+}
+
+h1 span {
+  display: block;
+  margin-top: 8px;
+  color: #ff35f2;
+  text-shadow: 0 0 8px #ff00cc, 0 0 28px #a000ff;
+}
+
+.line {
+  width: 120px;
+  height: 4px;
+  margin: 28px auto;
+  border-radius: 5px;
+  background: linear-gradient(90deg, #00d9ff, #c000ff, #ff35f2);
+  box-shadow: 0 0 15px #b000ff;
+}
+
+p {
+  color: #e1e5ff;
+  font-size: clamp(16px, 2.5vw, 21px);
+  line-height: 1.7;
+}
+
+strong {
+  color: #00d9ff;
+}
+
+.back {
+  display: inline-block;
+  margin-top: 28px;
+  color: #d77aff;
+  letter-spacing: 5px;
+  font-size: clamp(13px, 2.5vw, 18px);
+  text-shadow: 0 0 12px #a000ff;
+}
+
+@keyframes turn {
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 480px) {
+  .panel { padding: 40px 16px; }
+  .gear { font-size: 60px; }
+  .back { letter-spacing: 3px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gear { animation: none; }
+}
+</style>
 </head>
+
 <body>
-  <img src="./mantenimiento.png" alt="Sitio en mantenimiento. Volvemos pronto.">
+  <main class="panel">
+    <div class="gear" aria-hidden="true">⚙</div>
+
+    <h1>
+      Sitio en
+      <span>Mantenimiento</span>
+    </h1>
+
+    <div class="line"></div>
+
+    <p>
+      Estamos realizando algunas mejoras<br>
+      para brindarte una <strong>mejor experiencia.</strong>
+    </p>
+
+    <div class="back">¡VOLVEMOS PRONTO!</div>
+  </main>
 </body>
 </html>
