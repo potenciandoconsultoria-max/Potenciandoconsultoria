@@ -45,10 +45,28 @@ function prevStep(step) {
 }
 
 function getEtapaGeneral(puntos) {
-  if (puntos <= 14) return 'Etapa inicial (Nivel 1)';
-  if (puntos <= 28) return 'Etapa de ordenamiento (Nivel 2)';
-  if (puntos <= 42) return 'Etapa de consolidación (Nivel 3)';
-  return 'Etapa de integración avanzada (Nivel 4)';
+  if (puntos <= 7) return 'Etapa inicial';
+  if (puntos <= 14) return 'Etapa de ordenamiento';
+  if (puntos <= 21) return 'Etapa de consolidación';
+  return 'Etapa de integración avanzada';
+}
+
+function getTamanoEmpresa(q1, q2) {
+  const billingMap = {
+    '0': 'Microempresa (hasta $31,1M/mes)',
+    '1': 'Pequeña empresa (hasta $188M/mes)',
+    '2': 'Mediana empresa Tramo 1 (hasta $1.555M/mes)',
+    '3': 'Mediana empresa Tramo 2 (+ $1.555M/mes)'
+  };
+  const staffMap = {
+    '0': 'Microempresa (hasta 9 personas)',
+    '1': 'Pequeña empresa (10 a 30 personas)',
+    '2': 'Mediana empresa Tramo 1 (31 a 100 personas)',
+    '3': 'Mediana empresa Tramo 2 (+ 100 personas)'
+  };
+  if (q2 && billingMap[q2]) return billingMap[q2];
+  if (q1 && staffMap[q1]) return staffMap[q1];
+  return 'MiPyME';
 }
 
 async function submitForm() {
@@ -65,16 +83,19 @@ async function submitForm() {
   if (!ok) { alert('Completa todas las preguntas requeridas antes de enviar.'); return; }
   document.getElementById('loading-overlay').classList.add('active');
 
-  // Calcular puntaje total simple (suma de valores)
-  let total = 0;
   const formData = new FormData(document.getElementById('survey-form'));
-  for (let [key, value] of formData.entries()) {
-    const val = parseInt(value);
-    if (!isNaN(val)) total += val;
+  
+  // Calcular puntaje de gestión (preguntas 3 a 11)
+  let totalGestion = 0;
+  for (let i = 3; i <= 11; i++) {
+    const val = parseInt(formData.get(`q${i}`));
+    if (!isNaN(val)) totalGestion += val;
   }
 
+  const etapa = getEtapaGeneral(totalGestion);
+  const tamano = getTamanoEmpresa(formData.get('q1'), formData.get('q2'));
+
   // ---------- ENVIAR EMAIL CON EMAILJS ----------
-  const etapa = getEtapaGeneral(total);
   const emailParams = {
     // Variables del template template_meqgght (con alias para compatibilidad total)
     to_email: formData.get('email') || '',
@@ -87,12 +108,12 @@ async function submitForm() {
     empresa: formData.get('empresa') || '',
     empresa_name: formData.get('empresa') || '',
     sector: formData.get('sector') || '',
-    title: 'Diagnóstico Empresarial Gratuito',
-    res_stage: `${etapa} (${total}/57 pts)`,
-    res_fortalezas: 'Versión gratuita — Para un análisis detallado de fortalezas, accedé al Diagnóstico Profesional.',
-    res_alertas: 'Versión gratuita — Para un análisis detallado de alertas, accedé al Diagnóstico Profesional.',
-    res_cruzada: 'Versión gratuita — La lectura cruzada está disponible en el Diagnóstico Profesional.',
-    res_prioridades: 'Versión gratuita — Las prioridades detalladas están disponibles en el Diagnóstico Profesional.'
+    title: 'Autoevaluación Ágil PyME — Primer Mirada',
+    res_stage: `${etapa} (Tamaño detectado: ${tamano})`,
+    res_fortalezas: `A partir de tus respuestas, tu empresa muestra una base de ${tamano} y se encuentra en ${etapa}. Esta evaluación inicial refleja el estado real de tu gestión.`,
+    res_alertas: `Esta autoevaluación te brinda la "Primer mirada" objetiva de tu empresa para identificar puntos clave de ordenamiento y mejora.`,
+    res_cruzada: `Para profundizar en los 5 ejes de gestión (Identidad, Estructura, Ventas, Operaciones y Tecnología) con devolución exhaustiva, podés solicitar el Diagnóstico Integral.`,
+    res_prioridades: `Próximo paso: Definir las prioridades de mejora y avanzar en la consolidación de tus procesos. Contacto directo: potenciando.consultoria@gmail.com`
   };
 
   let emailSentSuccess = true;
@@ -111,8 +132,8 @@ async function submitForm() {
   document.getElementById('loading-overlay').classList.remove('active');
   document.getElementById('step-3').classList.remove('step-active');
   document.getElementById('step-4').classList.add('step-active');
-  document.getElementById('res-stage').innerText = `${getEtapaGeneral(total)} (${total}/57 pts)`;
-  document.getElementById('res-size').innerText = getEtapaGeneral(total);
+  document.getElementById('res-stage').innerText = etapa;
+  document.getElementById('res-size').innerText = tamano;
   document.getElementById('user-email-display').innerText = formData.get('email');
 
   if (!emailSentSuccess) {
