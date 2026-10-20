@@ -44,29 +44,95 @@ function prevStep(step) {
   window.scrollTo(0,0);
 }
 
-function getEtapaGeneral(puntos) {
-  if (puntos <= 7) return 'Etapa inicial';
-  if (puntos <= 14) return 'Etapa de ordenamiento';
-  if (puntos <= 21) return 'Etapa de consolidación';
-  return 'Etapa de integración avanzada';
+// Datos y matriz oficial del PDF: "INTERPRETACIÓN DE RESULTADOS" (Potenciando Autoevaluación PyME)
+const RESULTADOS_PDF = {
+  fundacional: {
+    nombre: 'Etapa Fundacional',
+    rango: '0 – 9 puntos',
+    descripcionGeneral: 'La empresa opera en modo supervivencia. Todo depende de personas clave, sin procesos documentados ni métricas. Crecer en estas condiciones implica un riesgo operativo muy alto.',
+    textosTamano: {
+      micro: 'Es común y esperable en esta etapa: recién estás armando las bases. El Diagnóstico Inicial te da el primer mapa antes de sumar estructura.',
+      desarrollo: 'Ya tenés algo de escala pero la gestión no acompañó ese crecimiento. Es el momento de ordenar antes de que el caos se vuelva estructural.',
+      consolidada: 'Con este tamaño, operar sin procesos documentados implica un riesgo alto: cada decisión importante depende de la memoria de las personas, no de datos.',
+      grande: 'Es la combinación más urgente: una empresa grande gestionada de manera informal expone al negocio a errores costosos y difíciles de detectar a tiempo.'
+    },
+    servicioRecomendado: 'Servicio de claridad y control',
+    detalleServicio: 'Primer paso para entender cómo funciona tu empresa hoy: números, decisiones y procesos. Sin plantillas genéricas.'
+  },
+  ordenamiento: {
+    nombre: 'Etapa de Ordenamiento',
+    rango: '10 – 18 puntos',
+    descripcionGeneral: 'Hay intuición de negocio, la empresa funciona, la gestión de tareas y el control es frágil y muy dependiente de algunas personas claves. El desafío es convertir ese saber en un sistema transferible y medible.',
+    textosTamano: {
+      micro: 'Es un buen momento para consolidar antes de crecer: instalar rutinas simples de seguimiento evita que el desorden escale junto con la empresa.',
+      desarrollo: 'Tenés la escala justa para que un sistema de información marque una diferencia real en cómo se toman las decisiones del día a día.',
+      consolidada: 'La brecha entre el tamaño de tu operación y la madurez de tu gestión empieza a generar fricción. Formalizar la información es el paso que sostiene el crecimiento ya logrado.',
+      grande: 'En una empresa de este tamaño, seguir gestionando con indicadores informales limita cuánto podés delegar y escalar con seguridad.'
+    },
+    servicioRecomendado: 'Servicio de profesionalización y gestión integral',
+    detalleServicio: 'Diagnóstico para sentar la base, seguido de un informe mensual que convierte los datos de tu empresa en decisiones claras.'
+  },
+  consolidacion: {
+    nombre: 'Etapa de Consolidación / Escala',
+    rango: '19 – 27 puntos',
+    descripcionGeneral: 'Tenés estructura y métricas básicas, pero los objetivos estratégicos y el sistema de seguimiento todavía son informales. Hay un potencial importante sin aprovechar.',
+    textosTamano: {
+      micro: 'Estás gestionando con una madurez que muchas empresas más grandes no tienen. El desafío ahora es construir la estructura que sostenga ese nivel cuando el equipo crezca.',
+      desarrollo: 'Tu gestión ya está lista para acompañar la siguiente etapa de crecimiento con un sistema formal, no solo con buena intuición.',
+      consolidada: 'Es el perfil ideal para pasar de gestionar el día a día a conducir estratégicamente: definir visión, gobierno y objetivos de largo plazo.',
+      grande: 'Con esta escala y esta madurez, el foco pasa a la gestión del crecimiento sostenido: gobierno corporativo, cultura y visión de largo plazo.'
+    },
+    servicioRecomendado: 'Evolución Estratégico',
+    detalleServicio: 'Trabajo de fondo: capacitamos a tu equipo y construimos un sistema de gestión que tu empresa puede sostener sin depender de nosotras.'
+  }
+};
+
+// 1. Puntaje de Tamaño (Preguntas 1 y 2 - máximo 6 puntos)
+function calcularTamano(q1Val, q2Val) {
+  const pts1 = parseInt(q1Val) || 0;
+  const pts2 = (q2Val === '0_prefiero' || !q2Val) ? 0 : (parseInt(q2Val) || 0);
+  const totalTamano = pts1 + pts2;
+
+  if (totalTamano <= 1) {
+    return {
+      key: 'micro',
+      nombre: 'Empresa Micro',
+      segmento: 'Cliente Inicial',
+      puntos: totalTamano
+    };
+  } else if (totalTamano <= 3) {
+    return {
+      key: 'desarrollo',
+      nombre: 'Empresa en Desarrollo (equiv. Pequeña)',
+      segmento: 'Cliente Avanzado (en transición)',
+      puntos: totalTamano
+    };
+  } else if (totalTamano <= 5) {
+    return {
+      key: 'consolidada',
+      nombre: 'Empresa Consolidada (equiv. Mediana)',
+      segmento: 'Cliente Avanzado / en Crecimiento',
+      puntos: totalTamano
+    };
+  } else {
+    return {
+      key: 'grande',
+      nombre: 'Empresa Grande (equiv. Mediana-Grande)',
+      segmento: 'Cliente en Crecimiento',
+      puntos: totalTamano
+    };
+  }
 }
 
-function getTamanoEmpresa(q1, q2) {
-  const billingMap = {
-    '0': 'Microempresa (hasta $31,1M/mes)',
-    '1': 'Pequeña empresa (hasta $188M/mes)',
-    '2': 'Mediana empresa Tramo 1 (hasta $1.555M/mes)',
-    '3': 'Mediana empresa Tramo 2 (+ $1.555M/mes)'
-  };
-  const staffMap = {
-    '0': 'Microempresa (hasta 9 personas)',
-    '1': 'Pequeña empresa (10 a 30 personas)',
-    '2': 'Mediana empresa Tramo 1 (31 a 100 personas)',
-    '3': 'Mediana empresa Tramo 2 (+ 100 personas)'
-  };
-  if (q2 && billingMap[q2]) return billingMap[q2];
-  if (q1 && staffMap[q1]) return staffMap[q1];
-  return 'MiPyME';
+// 2. Puntaje de Madurez de Gestión (Preguntas 3 a 11 - máximo 27 puntos)
+function calcularMadurez(puntos) {
+  if (puntos <= 9) {
+    return { key: 'fundacional', ...RESULTADOS_PDF.fundacional, puntos };
+  } else if (puntos <= 18) {
+    return { key: 'ordenamiento', ...RESULTADOS_PDF.ordenamiento, puntos };
+  } else {
+    return { key: 'consolidacion', ...RESULTADOS_PDF.consolidacion, puntos };
+  }
 }
 
 async function submitForm() {
@@ -85,19 +151,20 @@ async function submitForm() {
 
   const formData = new FormData(document.getElementById('survey-form'));
   
-  // Calcular puntaje de gestión (preguntas 3 a 11)
+  // Calcular puntaje de tamaño (preguntas 1 y 2)
+  const tamano = calcularTamano(formData.get('q1'), formData.get('q2'));
+
+  // Calcular puntaje de madurez de gestión (preguntas 3 a 11)
   let totalGestion = 0;
   for (let i = 3; i <= 11; i++) {
     const val = parseInt(formData.get(`q${i}`));
     if (!isNaN(val)) totalGestion += val;
   }
+  const madurez = calcularMadurez(totalGestion);
 
-  const etapa = getEtapaGeneral(totalGestion);
-  const tamano = getTamanoEmpresa(formData.get('q1'), formData.get('q2'));
-
-  // ---------- ENVIAR EMAIL CON EMAILJS ----------
+  // ---------- ENVIAR EMAIL CON EMAILJS SEGÚN LA MATRIZ DEL PDF ----------
   const emailParams = {
-    // Variables del template template_meqgght (con alias para compatibilidad total)
+    // Destinatarios y remitente
     to_email: formData.get('email') || '',
     email_cliente: formData.get('email') || '',
     email: formData.get('email') || '',
@@ -108,12 +175,21 @@ async function submitForm() {
     empresa: formData.get('empresa') || '',
     empresa_name: formData.get('empresa') || '',
     sector: formData.get('sector') || '',
-    title: 'Autoevaluación Ágil PyME — Primer Mirada',
-    res_stage: `${etapa} (Tamaño detectado: ${tamano})`,
-    res_fortalezas: `A partir de tus respuestas, tu empresa muestra una base de ${tamano} y se encuentra en ${etapa}. Esta evaluación inicial refleja el estado real de tu gestión.`,
-    res_alertas: `Esta autoevaluación te brinda la "Primer mirada" objetiva de tu empresa para identificar puntos clave de ordenamiento y mejora.`,
-    res_cruzada: `Para profundizar en los 5 ejes de gestión (Identidad, Estructura, Ventas, Operaciones y Tecnología) con devolución exhaustiva, podés solicitar el Diagnóstico Integral.`,
-    res_prioridades: `Próximo paso: Definir las prioridades de mejora y avanzar en la consolidación de tus procesos. Contacto directo: potenciando.consultoria@gmail.com`
+    title: 'Autoevaluación Ágil PyME — Diagnóstico y Resultados',
+    
+    // Variables mapeadas al template template_meqgght con los textos exactos del PDF
+    res_stage: `${madurez.nombre} · ${tamano.nombre} (${tamano.segmento})`,
+    res_fortalezas: madurez.descripcionGeneral,
+    res_alertas: `Según el tamaño de tu empresa (${tamano.nombre}):\n${madurez.textosTamano[tamano.key]}`,
+    res_cruzada: `Servicio recomendado: ${madurez.servicioRecomendado}.\n${madurez.detalleServicio}`,
+    res_prioridades: `Próximo paso: Definir las prioridades de mejora y avanzar en el ordenamiento de tus procesos.\nContacto directo: potenciando.consultoria@gmail.com`,
+
+    // Variables de respaldo por compatibilidad
+    size_category: `${tamano.nombre} (${tamano.segmento})`,
+    stage_intro: `${madurez.nombre}: ${madurez.descripcionGeneral}`,
+    size_specific_text: madurez.textosTamano[tamano.key],
+    recommended_service: `${madurez.servicioRecomendado}: ${madurez.detalleServicio}`,
+    devolucion: `${madurez.nombre} (${madurez.puntos}/27 pts)\nTamaño: ${tamano.nombre} (${tamano.segmento})\n\nDiagnóstico de Etapa:\n${madurez.descripcionGeneral}\n\nSituación según tu tamaño:\n${madurez.textosTamano[tamano.key]}\n\nServicio recomendado:\n${madurez.servicioRecomendado} - ${madurez.detalleServicio}\n\nContacto: potenciando.consultoria@gmail.com`
   };
 
   let emailSentSuccess = true;
@@ -121,19 +197,30 @@ async function submitForm() {
 
   try {
     await emailjs.send('service_nch11cy', 'template_meqgght', emailParams, 'mD8knrxEa7uQiQNqM');
-    console.log('Email enviado (Free) via EmailJS');
+    console.log('Email enviado (Free) via EmailJS con devolución del PDF');
   } catch (e) {
     emailSentSuccess = false;
     emailErrorMsg = e?.text || e?.message || JSON.stringify(e);
     console.warn('EmailJS error (Free):', e);
   }
 
-  // Mostrar resultados
+  // Mostrar resultados en pantalla
   document.getElementById('loading-overlay').classList.remove('active');
   document.getElementById('step-3').classList.remove('step-active');
   document.getElementById('step-4').classList.add('step-active');
-  document.getElementById('res-stage').innerText = etapa;
-  document.getElementById('res-size').innerText = tamano;
+  
+  document.getElementById('res-stage').innerText = `${madurez.nombre} (${madurez.puntos}/27 pts)`;
+  document.getElementById('res-size').innerText = `${tamano.nombre} · ${tamano.segmento}`;
+  
+  const elDesc = document.getElementById('res-general-desc');
+  if (elDesc) elDesc.innerText = madurez.descripcionGeneral;
+  
+  const elSizeDesc = document.getElementById('res-size-desc');
+  if (elSizeDesc) elSizeDesc.innerText = `Según el tamaño de tu empresa: ${madurez.textosTamano[tamano.key]}`;
+  
+  const elService = document.getElementById('res-service-rec');
+  if (elService) elService.innerText = `Servicio recomendado: ${madurez.servicioRecomendado} — ${madurez.detalleServicio}`;
+  
   document.getElementById('user-email-display').innerText = formData.get('email');
 
   if (!emailSentSuccess) {
