@@ -62,7 +62,7 @@ const RESULTADOS_PDF = {
   ordenamiento: {
     nombre: 'Etapa de Ordenamiento',
     rango: '10 – 18 puntos',
-    descripcionGeneral: 'Hay intuición de negocio, la empresa funciona, la gestión de tareas y el control es frágil y muy dependiente de algunas personas claves. El desafío es convertir ese saber en un sistema transferible y medible.',
+    descripcionGeneral: 'Hay intuición de negocio, la empresa funciona , la gestión de tareas y el control es frágil y muy dependiente de algunas personas claves. El desafío es convertir ese saber en un sistema transferible y medible.',
     textosTamano: {
       micro: 'Es un buen momento para consolidar antes de crecer: instalar rutinas simples de seguimiento evita que el desorden escale junto con la empresa.',
       desarrollo: 'Tenés la escala justa para que un sistema de información marque una diferencia real en cómo se toman las decisiones del día a día.',
@@ -96,28 +96,32 @@ function calcularTamano(q1Val, q2Val) {
   if (totalTamano <= 1) {
     return {
       key: 'micro',
-      nombre: 'Empresa Micro',
+      nombre: 'Empresa micro',
+      nombreCompleto: 'Empresa Micro',
       segmento: 'Cliente Inicial',
       puntos: totalTamano
     };
   } else if (totalTamano <= 3) {
     return {
       key: 'desarrollo',
-      nombre: 'Empresa en Desarrollo (equiv. Pequeña)',
+      nombre: 'Empresa pequeña',
+      nombreCompleto: 'Empresa en Desarrollo (equiv. Pequeña)',
       segmento: 'Cliente Avanzado (en transición)',
       puntos: totalTamano
     };
   } else if (totalTamano <= 5) {
     return {
       key: 'consolidada',
-      nombre: 'Empresa Consolidada (equiv. Mediana)',
+      nombre: 'Empresa mediana',
+      nombreCompleto: 'Empresa Consolidada (equiv. Mediana)',
       segmento: 'Cliente Avanzado / en Crecimiento',
       puntos: totalTamano
     };
   } else {
     return {
       key: 'grande',
-      nombre: 'Empresa Grande (equiv. Mediana-Grande)',
+      nombre: 'Empresa grande',
+      nombreCompleto: 'Empresa Grande (equiv. Mediana-Grande)',
       segmento: 'Cliente en Crecimiento',
       puntos: totalTamano
     };
@@ -127,11 +131,32 @@ function calcularTamano(q1Val, q2Val) {
 // 2. Puntaje de Madurez de Gestión (Preguntas 3 a 11 - máximo 27 puntos)
 function calcularMadurez(puntos) {
   if (puntos <= 9) {
-    return { key: 'fundacional', ...RESULTADOS_PDF.fundacional, puntos };
+    return {
+      key: 'fundacional',
+      stageName: 'Etapa fundacional (0 - 9 puntos)',
+      nombre: 'Etapa Fundacional',
+      rango: '0 – 9 puntos',
+      ...RESULTADOS_PDF.fundacional,
+      puntos
+    };
   } else if (puntos <= 18) {
-    return { key: 'ordenamiento', ...RESULTADOS_PDF.ordenamiento, puntos };
+    return {
+      key: 'ordenamiento',
+      stageName: 'Etapa de ordenamiento (10 - 18 puntos)',
+      nombre: 'Etapa de Ordenamiento',
+      rango: '10 – 18 puntos',
+      ...RESULTADOS_PDF.ordenamiento,
+      puntos
+    };
   } else {
-    return { key: 'consolidacion', ...RESULTADOS_PDF.consolidacion, puntos };
+    return {
+      key: 'consolidacion',
+      stageName: 'Etapa de consolidación / escala (19 - 27 puntos)',
+      nombre: 'Etapa de Consolidación / Escala',
+      rango: '19 – 27 puntos',
+      ...RESULTADOS_PDF.consolidacion,
+      puntos
+    };
   }
 }
 
@@ -162,46 +187,110 @@ async function submitForm() {
   }
   const madurez = calcularMadurez(totalGestion);
 
-  // ---------- ENVIAR EMAIL CON EMAILJS SEGÚN LA MATRIZ DEL PDF ----------
-  const emailParams = {
-    // Destinatarios y remitente
-    to_email: formData.get('email') || '',
-    email_cliente: formData.get('email') || '',
-    email: formData.get('email') || '',
-    name: formData.get('nombre') || '',
-    nombre: formData.get('nombre') || '',
-    to_name: formData.get('nombre') || '',
-    from_name: 'Potenciando Consultoría Empresarial',
-    empresa: formData.get('empresa') || '',
-    empresa_name: formData.get('empresa') || '',
-    sector: formData.get('sector') || '',
-    title: 'Autoevaluación Ágil PyME — Diagnóstico y Resultados',
-    
-    // Variables mapeadas al template template_meqgght con los textos exactos del PDF
-    res_stage: `${madurez.nombre} · ${tamano.nombre} (${tamano.segmento})`,
-    res_fortalezas: madurez.descripcionGeneral,
-    res_alertas: `Según el tamaño de tu empresa (${tamano.nombre}):\n${madurez.textosTamano[tamano.key]}`,
-    res_cruzada: `Servicio recomendado: ${madurez.servicioRecomendado}.\n${madurez.detalleServicio}`,
-    res_prioridades: `Próximo paso: Definir las prioridades de mejora y avanzar en el ordenamiento de tus procesos.\nContacto directo: potenciando.consultoria@gmail.com`,
+  // Variables normalizadas para el email
+  const empresaName = (formData.get('empresa') || '').trim();
+  const clientName = (formData.get('nombre') || '').trim();
+  const clientEmail = (formData.get('email') || '').trim();
+  const sectorName = (formData.get('sector') || '').trim();
 
-    // Variables de respaldo por compatibilidad
-    size_category: `${tamano.nombre} (${tamano.segmento})`,
-    stage_intro: `${madurez.nombre}: ${madurez.descripcionGeneral}`,
-    size_specific_text: madurez.textosTamano[tamano.key],
-    recommended_service: `${madurez.servicioRecomendado}: ${madurez.detalleServicio}`,
-    devolucion: `${madurez.nombre} (${madurez.puntos}/27 pts)\nTamaño: ${tamano.nombre} (${tamano.segmento})\n\nDiagnóstico de Etapa:\n${madurez.descripcionGeneral}\n\nSituación según tu tamaño:\n${madurez.textosTamano[tamano.key]}\n\nServicio recomendado:\n${madurez.servicioRecomendado} - ${madurez.detalleServicio}\n\nContacto: potenciando.consultoria@gmail.com`
+  const sizeCategory = tamano.nombre; // ej: "Empresa grande"
+  const stageName = madurez.stageName; // ej: "Etapa de ordenamiento (10 - 18 puntos)"
+  const stageIntro = madurez.descripcionGeneral;
+  const sizeSpecificText = madurez.textosTamano[tamano.key];
+  const recommendedService = `${madurez.servicioRecomendado}. ${madurez.detalleServicio}`;
+
+  // Texto completo formateado exactamente como en la imagen JPG del directorio
+  const fullEmailText = `¡Hola empresaria!
+
+Gracias por realizar la Autoevaluación Ágil PyME para tu empresa "${empresaName}".
+
+Según tus respuestas, tu empresa tiene el tamaño: ${sizeCategory} y se encuentra en la:
+**${stageName}**
+
+Diagnóstico de tu etapa:
+${stageIntro}
+
+Análisis específico para tu tamaño:
+${sizeSpecificText}
+
+Nuestro servicio recomendado:
+${recommendedService}
+
+Para conversar sobre cómo podemos ayudarte a implementar esto en ${empresaName}, responde a este correo.
+
+Saludos,
+El equipo de Potenciando Consultoría Empresarial.`;
+
+  // ---------- PARÁMETROS PARA EMAILJS ----------
+  const templateParamsCliente = {
+    // Destinatarios y remitente
+    to_name: clientName,
+    name: clientName,
+    nombre: clientName,
+    to_email: clientEmail,
+    email: clientEmail,
+    email_cliente: clientEmail,
+    from_name: 'Potenciando Consultoría Empresarial',
+
+    // Datos de empresa
+    empresa_name: empresaName,
+    empresa: empresaName,
+    sector: sectorName,
+    empresa_sector: sectorName,
+
+    // Variables oficiales de template_z20rrro (que genera la maqueta exacta de la imagen JPG)
+    stage_name: stageName,
+    stage_intro: stageIntro,
+    size_category: sizeCategory,
+    size_specific_text: sizeSpecificText,
+    recommended_service: recommendedService,
+
+    // Compatibilidad para template_meqgght (por si se utiliza esa plantilla en el dashboard)
+    title: 'Autoevaluación Ágil PyME — Diagnóstico y Resultados',
+    res_stage: `Según tus respuestas, tu empresa tiene el tamaño: ${sizeCategory} y se encuentra en la:\n**${stageName}**`,
+    res_fortalezas: stageIntro,
+    res_alertas: sizeSpecificText,
+    res_cruzada: recommendedService,
+    res_prioridades: `Para conversar sobre cómo podemos ayudarte a implementar esto en ${empresaName}, responde a este correo.\n\nSaludos,\nEl equipo de Potenciando Consultoría Empresarial.`,
+
+    // Variables de respaldo generales
+    devolucion: fullEmailText,
+    message: fullEmailText
   };
 
   let emailSentSuccess = true;
   let emailErrorMsg = '';
 
+  // Enviar usando template_z20rrro (plantilla oficial del correo de la imagen JPG)
+  // con fallback automático a template_meqgght
   try {
-    await emailjs.send('service_nch11cy', 'template_meqgght', emailParams, 'mD8knrxEa7uQiQNqM');
-    console.log('Email enviado (Free) via EmailJS con devolución del PDF');
-  } catch (e) {
-    emailSentSuccess = false;
-    emailErrorMsg = e?.text || e?.message || JSON.stringify(e);
-    console.warn('EmailJS error (Free):', e);
+    await emailjs.send('service_nch11cy', 'template_z20rrro', templateParamsCliente, 'mD8knrxEa7uQiQNqM');
+    console.log('Email enviado (Free) con template_z20rrro (formato exacto de imagen JPG)');
+  } catch (err1) {
+    console.warn('Fallo template_z20rrro, intentando con template_meqgght:', err1);
+    try {
+      await emailjs.send('service_nch11cy', 'template_meqgght', templateParamsCliente, 'mD8knrxEa7uQiQNqM');
+      console.log('Email enviado (Free) con fallback template_meqgght');
+    } catch (err2) {
+      emailSentSuccess = false;
+      emailErrorMsg = err2?.text || err2?.message || JSON.stringify(err2);
+      console.warn('EmailJS error (Free) en ambos templates:', err2);
+    }
+  }
+
+  // Enviar copia interna a Potenciando si el remitente no es ellos mismos
+  const userEmailLower = clientEmail.toLowerCase();
+  if (emailSentSuccess && userEmailLower && userEmailLower !== 'potenciando.consultoria@gmail.com') {
+    const templateParamsInterno = {
+      ...templateParamsCliente,
+      to_email: 'potenciando.consultoria@gmail.com',
+      to_name: 'Equipo Potenciando'
+    };
+    try {
+      await emailjs.send('service_nch11cy', 'template_z20rrro', templateParamsInterno, 'mD8knrxEa7uQiQNqM');
+    } catch (eInterno) {
+      console.warn('No se pudo enviar copia interna a Potenciando (no crítico):', eInterno);
+    }
   }
 
   // Mostrar resultados en pantalla
@@ -209,8 +298,8 @@ async function submitForm() {
   document.getElementById('step-3').classList.remove('step-active');
   document.getElementById('step-4').classList.add('step-active');
   
-  document.getElementById('res-stage').innerText = `${madurez.nombre} (${madurez.puntos}/27 pts)`;
-  document.getElementById('res-size').innerText = `${tamano.nombre} · ${tamano.segmento}`;
+  document.getElementById('res-stage').innerText = `${madurez.stageName}`;
+  document.getElementById('res-size').innerText = `${tamano.nombreCompleto} · ${tamano.segmento}`;
   
   const elDesc = document.getElementById('res-general-desc');
   if (elDesc) elDesc.innerText = madurez.descripcionGeneral;
@@ -221,7 +310,7 @@ async function submitForm() {
   const elService = document.getElementById('res-service-rec');
   if (elService) elService.innerText = `Servicio recomendado: ${madurez.servicioRecomendado} — ${madurez.detalleServicio}`;
   
-  document.getElementById('user-email-display').innerText = formData.get('email');
+  document.getElementById('user-email-display').innerText = clientEmail;
 
   if (!emailSentSuccess) {
     const subNotice = document.createElement('div');
