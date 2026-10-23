@@ -199,6 +199,37 @@ async function submitForm() {
   const sizeSpecificText = madurez.textosTamano[tamano.key];
   const recommendedService = `${madurez.servicioRecomendado}. ${madurez.detalleServicio}`;
 
+  // Asunto requerido por el cliente para la versión Free
+  const emailSubject = 'Tus resultados de la Autoevaluación Ágil PyME';
+
+  // Recopilar detalle de respuestas marcadas para USO INTERNO (Potenciando Consultoría)
+  const preguntasFree = [
+    { name: 'q1', num: '1', text: '¿Cuántos empleados tiene tu empresa (incluido vos)?' },
+    { name: 'q2', num: '2', text: '¿En qué rango se ubica la facturación mensual promedio de tu empresa?' },
+    { name: 'q3', num: '3', text: '¿Tenés objetivos claros y documentados para este año?' },
+    { name: 'q4', num: '4', text: '¿Cómo tomás decisiones en tu empresa?' },
+    { name: 'q5', num: '5', text: '¿Tus procesos están documentados?' },
+    { name: 'q6', num: '6', text: '¿Podría funcionar tu empresa si la persona clave se ausenta un mes?' },
+    { name: 'q7', num: '7', text: '¿Con qué frecuencia analizás información del negocio?' },
+    { name: 'q8', num: '8', text: '¿Tenés un tablero de métricas o indicadores de gestión?' },
+    { name: 'q9', num: '9', text: '¿Cómo está la alineación entre las áreas o personas de tu empresa?' },
+    { name: 'q10', num: '10', text: '¿Cuál describe mejor tu principal desafío de gestión hoy?' },
+    { name: 'q11', num: '11', text: '¿Qué esperarías principalmente de trabajar con una consultoría?' }
+  ];
+
+  const respuestasTexto = [];
+  preguntasFree.forEach(p => {
+    const inputChecked = document.querySelector(`input[name="${p.name}"]:checked`);
+    if (inputChecked) {
+      const labelSpan = inputChecked.closest('label')?.querySelector('span')?.innerText?.trim() || '';
+      const val = inputChecked.value;
+      const pts = (val === '0_prefiero') ? 'Prefiero no indicarlo' : `${val} pts`;
+      respuestasTexto.push(`${p.num}. ${p.text} -> ${labelSpan} (${pts})`);
+    }
+  });
+
+  const detalleRespuestasInterno = `\n--- DETALLE DE RESPUESTAS MARCADAS POR EL CLIENTE (USO INTERNO) ---\n` + respuestasTexto.join('\n');
+
   // Texto completo formateado exactamente como en la imagen JPG del directorio
   const fullEmailText = `¡Hola empresaria!
 
@@ -221,8 +252,14 @@ Para conversar sobre cómo podemos ayudarte a implementar esto en ${empresaName}
 Saludos,
 El equipo de Potenciando Consultoría Empresarial.`;
 
-  // ---------- PARÁMETROS PARA EMAILJS ----------
+  // ---------- PARÁMETROS PARA EMAILJS (CLIENTE) ----------
   const templateParamsCliente = {
+    // Asunto dinámico (compatible con {{subject}}, {{asunto}}, {{title}}, {{email_subject}})
+    subject: emailSubject,
+    asunto: emailSubject,
+    title: emailSubject,
+    email_subject: emailSubject,
+
     // Destinatarios y remitente
     to_name: clientName,
     name: clientName,
@@ -246,14 +283,14 @@ El equipo de Potenciando Consultoría Empresarial.`;
     recommended_service: recommendedService,
 
     // Compatibilidad para template_meqgght (por si se utiliza esa plantilla en el dashboard)
-    title: 'Autoevaluación Ágil PyME — Diagnóstico y Resultados',
     res_stage: `Según tus respuestas, tu empresa tiene el tamaño: ${sizeCategory} y se encuentra en la:\n**${stageName}**`,
     res_fortalezas: stageIntro,
     res_alertas: sizeSpecificText,
     res_cruzada: recommendedService,
     res_prioridades: `Para conversar sobre cómo podemos ayudarte a implementar esto en ${empresaName}, responde a este correo.\n\nSaludos,\nEl equipo de Potenciando Consultoría Empresarial.`,
 
-    // Variables de respaldo generales
+    // Variables de respaldo generales (vacío para que el cliente NO reciba respuestas internas)
+    respuestas_detalle: '',
     devolucion: fullEmailText,
     message: fullEmailText
   };
@@ -284,12 +321,24 @@ El equipo de Potenciando Consultoría Empresarial.`;
     const templateParamsInterno = {
       ...templateParamsCliente,
       to_email: 'potenciando.consultoria@gmail.com',
-      to_name: 'Equipo Potenciando'
+      to_name: 'Equipo Potenciando',
+      respuestas_detalle: detalleRespuestasInterno,
+      // Se concatena a recommended_service, devolucion y message para asegurar que se muestre
+      // en el mail interno incluso si la plantilla de EmailJS no incluye el tag {{respuestas_detalle}}
+      recommended_service: `${recommendedService}\n\n${detalleRespuestasInterno}`,
+      devolucion: `${fullEmailText}\n\n${detalleRespuestasInterno}`,
+      message: `${fullEmailText}\n\n${detalleRespuestasInterno}`,
+      res_prioridades: `${templateParamsCliente.res_prioridades}\n\n${detalleRespuestasInterno}`
     };
     try {
       await emailjs.send('service_nch11cy', 'template_z20rrro', templateParamsInterno, 'mD8knrxEa7uQiQNqM');
     } catch (eInterno) {
-      console.warn('No se pudo enviar copia interna a Potenciando (no crítico):', eInterno);
+      console.warn('Fallo template_z20rrro interno, intentando fallback template_meqgght:', eInterno);
+      try {
+        await emailjs.send('service_nch11cy', 'template_meqgght', templateParamsInterno, 'mD8knrxEa7uQiQNqM');
+      } catch (errFallback) {
+        console.warn('No se pudo enviar copia interna a Potenciando:', errFallback);
+      }
     }
   }
 
