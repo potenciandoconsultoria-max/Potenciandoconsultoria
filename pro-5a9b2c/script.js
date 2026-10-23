@@ -275,8 +275,19 @@ ${lecturaCruzadaStr}
 ${prioridadesFinal}
     `;
 
+    // Asunto requerido por el cliente para la versión Pro
+    const emailSubject = 'Tus resultados del Diagnóstico Integral PyME';
+
+    const detalleRespuestasInterno = `\n--- DETALLE DE RESPUESTAS MARCADAS POR EL CLIENTE (USO INTERNO) ---\n` + respuestasTexto.join('\n');
+
     // 1. Parámetros para el CLIENTE (sin el detalle de respuestas internas)
     const templateParamsCliente = {
+        // Asunto dinámico (compatible con {{subject}}, {{asunto}}, {{title}}, {{email_subject}})
+        subject: emailSubject,
+        asunto: emailSubject,
+        title: emailSubject,
+        email_subject: emailSubject,
+
         to_email: formData.get('email'),
         email_cliente: formData.get('email'),
         to_name: formData.get('nombre'),
@@ -288,7 +299,7 @@ ${prioridadesFinal}
         size_category: etapaGeneral,
         stage_intro: `ESTADO GENERAL:\n${etapaGeneral}\n\nSITUACIÓN POR EJE:\n${situacionPorAreaStr}\n\nPRINCIPALES FORTALEZAS:\n${fortalezasStr}\n\nALERTAS A TENER EN CUENTA:\n${alertasStr}\n\nPRIMER MIRADA:\n${lecturaCruzadaStr}`,
         size_specific_text: `PRIORIDADES PARA EMPEZAR:\n${prioridadesFinal}`,
-        recommended_service: `PRÓXIMO PASO:\nEsta evaluación te da una primera fotografía de tu empresa a partir de tus propias respuestas. El paso siguiente es profundizar en los aspectos que aparecen como prioritarios, para entender con más detalle dónde están las principales oportunidades de mejora y qué impacto podrían tener en tu negocio.\n\nContacto: WhatsApp 3416186024 · 3416001679 | Email: potenciando.consultoria@gmail.com`,
+        recommended_service: `PRÓXIMO PASO:\nEsta evaluación te da una primera fotografía de tu empresa a partir de tus propias respuestas. El paso siguiente es profundizar en los aspectos que aparecen como prioritarios, para entender con más detalle dónde están las principales oportunidades de mejora y qué impacto podrían tener en tu negocio.\n\nContacto: potenciando.consultoria@gmail.com`,
         
         // Dejar vacío para que al cliente NO le llegue el desglose interno de respuestas
         respuestas_detalle: '',
@@ -300,7 +311,12 @@ ${prioridadesFinal}
         ...templateParamsCliente,
         to_email: 'potenciando.consultoria@gmail.com',
         to_name: 'Equipo Potenciando',
-        respuestas_detalle: `\n--- DETALLE DE RESPUESTAS MARCADAS POR EL CLIENTE (USO INTERNO) ---\n` + respuestasTexto.join('\n')
+        respuestas_detalle: detalleRespuestasInterno,
+        // Se anexa también en recommended_service, devolucion y message para asegurar que se visualice
+        // en el correo interno aunque el template de EmailJS no tenga la variable {{respuestas_detalle}}
+        recommended_service: `${templateParamsCliente.recommended_service}\n\n${detalleRespuestasInterno}`,
+        devolucion: `${devolucionCompleta}\n\n${detalleRespuestasInterno}`,
+        message: `${devolucionCompleta}\n\n${detalleRespuestasInterno}`
     };
 
     let emailSentSuccess = true;
@@ -308,10 +324,10 @@ ${prioridadesFinal}
 
     try {
         // Enviar email al cliente
-        await emailjs.send('service_nch11cy', 'template_z20rrro', templateParamsCliente);
+        await emailjs.send('service_nch11cy', 'template_z20rrro', templateParamsCliente, 'mD8knrxEa7uQiQNqM');
         
         // Enviar copia con informe completo de uso interno a Potenciando
-        await emailjs.send('service_nch11cy', 'template_z20rrro', templateParamsInterno);
+        await emailjs.send('service_nch11cy', 'template_z20rrro', templateParamsInterno, 'mD8knrxEa7uQiQNqM');
     } catch (error) {
         emailSentSuccess = false;
         emailErrorMsg = error?.text || error?.message || JSON.stringify(error);
