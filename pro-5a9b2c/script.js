@@ -288,6 +288,14 @@ ${prioridadesFinal}
         title: emailSubject,
         email_subject: emailSubject,
 
+        // Nombre de evaluación dinámico para el cuerpo del template
+        tipo_evaluacion: 'el Diagnóstico Integral PyME',
+        nombre_evaluacion: 'el Diagnóstico Integral PyME',
+        evaluacion_nombre: 'el Diagnóstico Integral PyME',
+        evaluacion: 'el Diagnóstico Integral PyME',
+        diagnostico_nombre: 'Diagnóstico Integral PyME',
+        titulo_evaluacion: 'Diagnóstico Integral PyME',
+
         to_email: formData.get('email'),
         email_cliente: formData.get('email'),
         to_name: formData.get('nombre'),
@@ -298,8 +306,8 @@ ${prioridadesFinal}
         
         size_category: etapaGeneral,
         stage_intro: `ESTADO GENERAL:\n${etapaGeneral}\n\nSITUACIÓN POR EJE:\n${situacionPorAreaStr}\n\nPRINCIPALES FORTALEZAS:\n${fortalezasStr}\n\nALERTAS A TENER EN CUENTA:\n${alertasStr}\n\nPRIMER MIRADA:\n${lecturaCruzadaStr}`,
-        size_specific_text: `PRIORIDADES PARA EMPEZAR:\n${prioridadesFinal}`,
-        recommended_service: `PRÓXIMO PASO:\nEsta evaluación te da una primera fotografía de tu empresa a partir de tus propias respuestas. El paso siguiente es profundizar en los aspectos que aparecen como prioritarios, para entender con más detalle dónde están las principales oportunidades de mejora y qué impacto podrían tener en tu negocio.\n\nContacto: potenciando.consultoria@gmail.com`,
+        size_specific_text: prioridadesFinal.trim(),
+        recommended_service: `Esta evaluación te da una primera fotografía de tu empresa a partir de tus propias respuestas. El paso siguiente es profundizar en los aspectos que aparecen como prioritarios, para entender con más detalle dónde están las principales oportunidades de mejora y qué impacto podrían tener en tu negocio.\n\nContacto: potenciando.consultoria@gmail.com`,
         
         // Dejar vacío para que al cliente NO le llegue el desglose interno de respuestas
         respuestas_detalle: '',
