@@ -259,6 +259,14 @@ El equipo de Potenciando Consultoría Empresarial.`;
     asunto: emailSubject,
     title: emailSubject,
     email_subject: emailSubject,
+        // Nombre de evaluación dinámico para el cuerpo del template
+    tipo_evaluacion: 'la Autoevaluación Ágil PyME',
+    nombre_evaluacion: 'la Autoevaluación Ágil PyME',
+    evaluacion_nombre: 'la Autoevaluación Ágil PyME',
+    evaluacion: 'la Autoevaluación Ágil PyME',
+    diagnostico_nombre: 'Autoevaluación Ágil PyME',
+    titulo_evaluacion: 'Autoevaluación Ágil PyME',
+
 
     // Destinatarios y remitente
     to_name: clientName,
